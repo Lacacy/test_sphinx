@@ -1,0 +1,487 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>W8A8 LLM 模型部署 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="lmdeploy.pytorch 新模型支持" href="../advance/pytorch_new_model.html" />
+  <link rel="prev" title="KV Cache 量化和测试结果" href="kv_int8.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>W8A8 LLM 模型部署</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//quantization/w8a8.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="w8a8-llm">
+<h1>W8A8 LLM 模型部署<a class="headerlink" href="#w8a8-llm" title="永久链接至标题">¶</a></h1>
+<p>LMDeploy 提供了使用 8 bit 整数对神经网络模型进行量化和推理的功能。</p>
+<p>在开始推理前，需要确保已经正确安装了 lmdeploy 和 openai/triton。可以通过以下命令进行安装：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>lmdeploy
+pip<span class="w"> </span>install<span class="w"> </span>triton&gt;<span class="o">=</span><span class="m">2</span>.1.0
+</pre></div>
+</div>
+<div class="section" id="bit">
+<h2>8bit 权重模型推理<a class="headerlink" href="#bit" title="永久链接至标题">¶</a></h2>
+<p>如果你需要进行 8 bit 权重模型推理，可以直接从 LMDeploy 的 <a class="reference external" href="https://huggingface.co/lmdeploy">model zoo</a> 下载已经量化好的 8bit 权重模型。以8bit 的 Internlm-chat-7B 模型为例，可以从 model zoo 直接下载：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git-lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/lmdeploy/internlm-chat-7b-w8<span class="w"> </span><span class="o">(</span>coming<span class="w"> </span>soon<span class="o">)</span>
+</pre></div>
+</div>
+<p>你也可以参考<a class="reference internal" href="#id2">”8bit 权重量化”</a>章节的内容手动将原 16bit 权重量化为 8bit，并保存至 <code class="docutils literal notranslate"><span class="pre">internlm-chat-7b-w8</span></code> 目录下，操作命令如下：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>lmdeploy<span class="w"> </span>lite<span class="w"> </span>smooth_quant<span class="w"> </span>internlm/internlm-chat-7b<span class="w"> </span>--work-dir<span class="w"> </span>./internlm-chat-7b-w8
+</pre></div>
+</div>
+<p>然后，执行以下命令，即可在终端与模型对话：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>lmdeploy<span class="w"> </span>chat<span class="w"> </span>torch<span class="w"> </span>./internlm-chat-7b-w8
+</pre></div>
+</div>
+</div>
+<div class="section" id="gradio">
+<h2>启动 gradio 服务<a class="headerlink" href="#gradio" title="永久链接至标题">¶</a></h2>
+<p>Coming soon…</p>
+</div>
+<div class="section" id="id1">
+<h2>推理速度<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>Coming soon…</p>
+</div>
+<div class="section" id="id2">
+<h2>8bit 权重量化<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>进行 4bit 权重量化需要经历以下三步：</p>
+<ol class="arabic simple">
+<li><p><strong>权重平滑</strong>：首先对语言模型的权重进行平滑处理，以便更好地进行量化。</p></li>
+<li><p><strong>模块替换</strong>：使用 <code class="docutils literal notranslate"><span class="pre">QRSMNorm</span></code> 和 <code class="docutils literal notranslate"><span class="pre">QLinear</span></code> 模块替换原模型 <code class="docutils literal notranslate"><span class="pre">DecoderLayer</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">RSMNorm</span></code> 模块和 <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code> 模块。<code class="docutils literal notranslate"><span class="pre">lmdeploy/pytorch/models/q_modules.py</span></code> 文件中定义了这些量化模块。</p></li>
+<li><p><strong>保存量化模型</strong>：完成上述必要的替换后，我们即可保存新的量化模型。</p></li>
+</ol>
+<p>我们在<code class="docutils literal notranslate"><span class="pre">lmdeploy/lite/api/smooth_quantity.py</span></code>脚本中已经实现了以上三个步骤。例如，可以通过以下命令得到量化后的 Internlm-chat-7B 模型的模型权重：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>lmdeploy<span class="w"> </span>lite<span class="w"> </span>smooth_quant<span class="w"> </span>internlm/internlm-chat-7b<span class="w"> </span>--work-dir<span class="w"> </span>./internlm-chat-7b-w8
+</pre></div>
+</div>
+<p>保存之后，你就可以通过调用from_pretrained接口来实例化你的量化模型。</p>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="../advance/pytorch_new_model.html" class="btn btn-neutral float-right" title="lmdeploy.pytorch 新模型支持" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="kv_int8.html" class="btn btn-neutral" title="KV Cache 量化和测试结果" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">W8A8 LLM 模型部署</a><ul>
+<li><a class="reference internal" href="#bit">8bit 权重模型推理</a></li>
+<li><a class="reference internal" href="#gradio">启动 gradio 服务</a></li>
+<li><a class="reference internal" href="#id1">推理速度</a></li>
+<li><a class="reference internal" href="#id2">8bit 权重量化</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

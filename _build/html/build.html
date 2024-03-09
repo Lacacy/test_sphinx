@@ -1,0 +1,517 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>编译和安装 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="genindex.html" />
+  <link rel="search" title="搜索" href="search.html" />
+  <link rel="next" title="静态推理性能测试" href="benchmark/profile_generation.html" />
+  <link rel="prev" title="快速上手" href="get_started.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>编译和安装</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//build.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="id1">
+<h1>编译和安装<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>LMDeploy 提供了预编译包，可以很方便的通过 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">lmdeploy</span></code> 安装和使用。</p>
+<p>如果有源码编译的需求，请先下载 lmdeploy 源码：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="o">=</span><span class="m">1</span><span class="w"> </span>https://github.com/InternLM/lmdeploy
+</pre></div>
+</div>
+<p>然后，参考以下章节编译和安装。</p>
+<div class="section" id="docker">
+<h2>在 docker 内编译安装（强烈推荐）<a class="headerlink" href="#docker" title="永久链接至标题">¶</a></h2>
+<p>LMDeploy 提供了编译镜像 <code class="docutils literal notranslate"><span class="pre">openmmlab/lmdeploy-builder:cuda11.8</span></code>。使用之前，请确保 docker 已安装。</p>
+<p>在 lmdeploy 源码的根目录下，运行以下命令：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy 源码根目录</span>
+<span class="nb">cd</span><span class="w"> </span>lmdeploy
+bash<span class="w"> </span>builder/manywheel/build_all_wheel.sh
+</pre></div>
+</div>
+<p>即可在 <code class="docutils literal notranslate"><span class="pre">builder/manywheel/cuda11.8_dist</span></code> 文件夹下，得到 lmdeploy 在 py3.8 - py3.11 下所有的 wheel 文件。比如，</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>builder/manywheel/cuda11.8_dist/
+├── lmdeploy-0.0.12-cp310-cp310-manylinux2014_x86_64.whl
+├── lmdeploy-0.0.12-cp311-cp311-manylinux2014_x86_64.whl
+├── lmdeploy-0.0.12-cp38-cp38-manylinux2014_x86_64.whl
+└── lmdeploy-0.0.12-cp39-cp39-manylinux2014_x86_64.whl
+</pre></div>
+</div>
+<p>如果需要固定 python 版本的 wheel 文件，比如 py3.8，可以执行：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>builder/manywheel/build_wheel.sh<span class="w"> </span>py38<span class="w"> </span>manylinux2014_x86_64<span class="w"> </span>cuda11.8<span class="w"> </span>cuda11.8_dist
+</pre></div>
+</div>
+<p>wheel 文件存放在目录 <code class="docutils literal notranslate"><span class="pre">builder/manywheel/cuda11.8_dist</span></code> 下。</p>
+<p>在宿主机上，通过 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> 安装和宿主机python版本一致的 wheel 文件，即完成 lmdeploy 整个编译安装过程。</p>
+</div>
+<div class="section" id="id2">
+<h2>在物理机上编译安装（可选）<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>首先，请确保物理机环境的 gcc 版本不低于 9，可以通过<code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">--version</span></code>确认。</p>
+<p>然后，按如下步骤，配置编译环境：</p>
+<ul>
+<li><p>安装编译和运行依赖包：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+apt-get<span class="w"> </span>install<span class="w"> </span>rapidjson-dev
+</pre></div>
+</div>
+</li>
+<li><p>安装 <a class="reference external" href="https://docs.nvidia.com/deeplearning/nccl/install-guide/index.html">nccl</a>,设置环境变量</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_ROOT_DIR</span><span class="o">=</span>/path/to/nccl/build
+<span class="nb">export</span><span class="w"> </span><span class="nv">NCCL_LIBRARIES</span><span class="o">=</span>/path/to/nccl/build/lib
+</pre></div>
+</div>
+</li>
+<li><p>源码编译安装 openmpi:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.5.tar.gz
+tar<span class="w"> </span>xf<span class="w"> </span>openmpi-4.1.5.tar.gz
+<span class="nb">cd</span><span class="w"> </span>openmpi-4.1.5
+./configure
+make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+</li>
+<li><p>lmdeploy 编译安装:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装更快的 Ninja</span>
+apt<span class="w"> </span>install<span class="w"> </span>ninja-build
+<span class="c1"># lmdeploy 源码的根目录</span>
+<span class="nb">cd</span><span class="w"> </span>lmdeploy
+mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+sh<span class="w"> </span>../generate.sh
+ninja<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ninja<span class="w"> </span>install
+ninja<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ninja<span class="w"> </span>install
+</pre></div>
+</div>
+</li>
+<li><p>安装 lmdeploy python package:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="benchmark/profile_generation.html" class="btn btn-neutral float-right" title="静态推理性能测试" accesskey="n"
+      rel="next">Next <img src="_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="get_started.html" class="btn btn-neutral" title="快速上手" accesskey="p"
+      rel="prev"><img src="_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">编译和安装</a><ul>
+<li><a class="reference internal" href="#docker">在 docker 内编译安装（强烈推荐）</a></li>
+<li><a class="reference internal" href="#id2">在物理机上编译安装（可选）</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="./"
+    src="_static/documentation_options.js"></script>
+  <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+  <script src="_static/jquery.js"></script>
+  <script src="_static/underscore.js"></script>
+  <script src="_static/doctools.js"></script>
+  <script src="_static/clipboard.min.js"></script>
+  <script src="_static/copybutton.js"></script>
+  <script src="_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

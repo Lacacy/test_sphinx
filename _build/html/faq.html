@@ -1,0 +1,527 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>常见问题 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="genindex.html" />
+  <link rel="search" title="搜索" href="search.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>常见问题</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//faq.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="id1">
+<h1>常见问题<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="modulenotfounderror">
+<h2>ModuleNotFoundError<a class="headerlink" href="#modulenotfounderror" title="永久链接至标题">¶</a></h2>
+<div class="section" id="no-module-named-mmengine-config-lazy">
+<h3>No module named ‘mmengine.config.lazy’<a class="headerlink" href="#no-module-named-mmengine-config-lazy" title="永久链接至标题">¶</a></h3>
+<p>可能是因为已经有旧版本的mmengine缓存在了本机。更新到最新班应该可以解决这个问题。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>mmengine
+</pre></div>
+</div>
+</div>
+<div class="section" id="no-module-named-turbomind">
+<h3>No module named ‘_turbomind’<a class="headerlink" href="#no-module-named-turbomind" title="永久链接至标题">¶</a></h3>
+<p>可能是因为：</p>
+<ol class="arabic simple">
+<li><p>您没有安装 lmdeploy 的预编译包。<code class="docutils literal notranslate"><span class="pre">_turbomind</span></code>是 turbomind c++ 的 pybind部分，涉及到编译。推荐您直接安装预编译包。</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">lmdeploy</span><span class="p">[</span><span class="nb">all</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>如果已经安装了，还是出现这个问题，请检查下执行目录。不要在 lmdeploy 的源码根目录下执行 python -m lmdeploy.turbomind.*下的package，换到其他目录下执行。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="libs">
+<h2>Libs<a class="headerlink" href="#libs" title="永久链接至标题">¶</a></h2>
+<div class="section" id="libnccl-so-2-not-found">
+<h3>libnccl.so.2 not found<a class="headerlink" href="#libnccl-so-2-not-found" title="永久链接至标题">¶</a></h3>
+<p>确保通过 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">lmdeploy[all]</span></code> 安装了 lmdeploy (&gt;=v0.0.5)。</p>
+<p>如果安装之后，问题还存在，那么就把<code class="docutils literal notranslate"><span class="pre">libnccl.so.2</span></code>的路径加入到环境变量 LD_LIBRARY_PATH 中。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 获取nvidia-nccl-cu11 package的安装目录</span>
+pip<span class="w"> </span>show<span class="w"> </span>nvidia-nccl-cu11<span class="p">|</span>grep<span class="w"> </span>Location
+<span class="c1"># 把&quot;libnccl.so.2&quot;的路径加入到 LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">={</span>Location<span class="o">}</span>/nvidia/nccl/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="symbol-cudafreeasync-version-libcudart-so-11-0-not-defined-in-file-libcudart-so-11-0-with-link-time-reference">
+<h3>symbol cudaFreeAsync version libcudart.so.11.0 not defined in file libcudart.so.11.0 with link time reference<a class="headerlink" href="#symbol-cudafreeasync-version-libcudart-so-11-0-not-defined-in-file-libcudart-so-11-0-with-link-time-reference" title="永久链接至标题">¶</a></h3>
+<p>很可能是机器上的 cuda 版本太低导致的。LMDeploy运行时要求 cuda 不低于 11.2</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>推理<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="runtimeerror-tm-error-cuda-runtime-error-out-of-memory-workspace-lmdeploy-src-turbomind-utils-allocator-h">
+<h3>RuntimeError: [TM][ERROR] CUDA runtime error: out of memory /workspace/lmdeploy/src/turbomind/utils/allocator.h<a class="headerlink" href="#runtimeerror-tm-error-cuda-runtime-error-out-of-memory-workspace-lmdeploy-src-turbomind-utils-allocator-h" title="永久链接至标题">¶</a></h3>
+<p>通常这是因为 k/v cache内存比例过大导致的。比例的控制参数是 <code class="docutils literal notranslate"><span class="pre">TurbomindEngineConfig.cache_max_entry_count</span></code>。该参数在不同版本的 lmdeploy中，含义略有不同。具体请参考代码中的<a class="reference external" href="https://github.com/InternLM/lmdeploy/blob/52419bd5b6fb419a5e3aaf3c3b4dea874b17e094/lmdeploy/messages.py#L107">演进说明</a></p>
+<p>如果在使用 pipeline 接口遇到该问题，请调低比例，比如</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lmdeploy</span> <span class="kn">import</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">TurbomindEngineConfig</span>
+
+<span class="n">backend_config</span> <span class="o">=</span> <span class="n">TurbomindEngineConfig</span><span class="p">(</span><span class="n">cache_max_entry_count</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s1">&#39;internlm/internlm2-chat-7b&#39;</span><span class="p">,</span>
+                <span class="n">backend_config</span><span class="o">=</span><span class="n">backend_config</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">([</span><span class="s1">&#39;Hi, pls intro yourself&#39;</span><span class="p">,</span> <span class="s1">&#39;Shanghai is&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果在使用 CLI 工具时遇到此问题，请传入参数<code class="docutils literal notranslate"><span class="pre">--cache-max-entry-count</span></code>，调低 k/v cache缓存使用比例。比如，</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># chat 命令</span>
+lmdeploy<span class="w"> </span>chat<span class="w"> </span>turbomind<span class="w"> </span>internlm/internlm2-chat-7b<span class="w"> </span>--cache-max-entry-count<span class="w"> </span><span class="m">0</span>.2
+
+<span class="c1"># server 命令</span>
+lmdeploy<span class="w"> </span>serve<span class="w"> </span>api_server<span class="w"> </span>internlm/internlm2-chat-7b<span class="w"> </span>--cache-max-entry-count<span class="w"> </span><span class="m">0</span>.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>服务<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id4">
+<h2>量化<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="runtimeerror-enforce-fail-at-inline-container-cc-337-unexpected-pos-4566829760-vs-4566829656">
+<h3>RuntimeError: [enforce fail at inline_container.cc:337] . unexpected pos 4566829760 vs 4566829656<a class="headerlink" href="#runtimeerror-enforce-fail-at-inline-container-cc-337-unexpected-pos-4566829760-vs-4566829656" title="永久链接至标题">¶</a></h3>
+<p>请检查你的硬盘空间。</p>
+<p>这个错误是因为保存权重时硬盘空间不足导致的，在量化 70B 模型时可能会遇到</p>
+</div>
+<div class="section" id="modulenotfounderror-no-module-named-flash-attn">
+<h3>ModuleNotFoundError: No module named ‘flash_attn’<a class="headerlink" href="#modulenotfounderror-no-module-named-flash-attn" title="永久链接至标题">¶</a></h3>
+<p>量化 <code class="docutils literal notranslate"><span class="pre">qwen</span></code> 模型需要安装 <code class="docutils literal notranslate"><span class="pre">flash-attn</span></code>。但是，根据社区用户的反馈，<code class="docutils literal notranslate"><span class="pre">flash-attn</span></code> 比较难安装。所以，lmdeploy 从依赖列表中移除 <code class="docutils literal notranslate"><span class="pre">flash-attn</span></code>，用户在用到的时候，可以进行手动安装。</p>
+</div>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">常见问题</a><ul>
+<li><a class="reference internal" href="#modulenotfounderror">ModuleNotFoundError</a><ul>
+<li><a class="reference internal" href="#no-module-named-mmengine-config-lazy">No module named ‘mmengine.config.lazy’</a></li>
+<li><a class="reference internal" href="#no-module-named-turbomind">No module named ‘_turbomind’</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#libs">Libs</a><ul>
+<li><a class="reference internal" href="#libnccl-so-2-not-found">libnccl.so.2 not found</a></li>
+<li><a class="reference internal" href="#symbol-cudafreeasync-version-libcudart-so-11-0-not-defined-in-file-libcudart-so-11-0-with-link-time-reference">symbol cudaFreeAsync version libcudart.so.11.0 not defined in file libcudart.so.11.0 with link time reference</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">推理</a><ul>
+<li><a class="reference internal" href="#runtimeerror-tm-error-cuda-runtime-error-out-of-memory-workspace-lmdeploy-src-turbomind-utils-allocator-h">RuntimeError: [TM][ERROR] CUDA runtime error: out of memory /workspace/lmdeploy/src/turbomind/utils/allocator.h</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">服务</a></li>
+<li><a class="reference internal" href="#id4">量化</a><ul>
+<li><a class="reference internal" href="#runtimeerror-enforce-fail-at-inline-container-cc-337-unexpected-pos-4566829760-vs-4566829656">RuntimeError: [enforce fail at inline_container.cc:337] . unexpected pos 4566829760 vs 4566829656</a></li>
+<li><a class="reference internal" href="#modulenotfounderror-no-module-named-flash-attn">ModuleNotFoundError: No module named ‘flash_attn’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="./"
+    src="_static/documentation_options.js"></script>
+  <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+  <script src="_static/jquery.js"></script>
+  <script src="_static/underscore.js"></script>
+  <script src="_static/doctools.js"></script>
+  <script src="_static/clipboard.min.js"></script>
+  <script src="_static/copybutton.js"></script>
+  <script src="_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

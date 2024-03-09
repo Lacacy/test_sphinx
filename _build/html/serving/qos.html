@@ -1,0 +1,655 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>LMDeploy-QoS 介绍与用法 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="推理 pipeline" href="../api/pipeline.html" />
+  <link rel="prev" title="如何调试 Turbomind" href="../advance/debug_turbomind.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>LMDeploy-QoS 介绍与用法</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//serving/qos.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="lmdeploy-qos">
+<h1>LMDeploy-QoS 介绍与用法<a class="headerlink" href="#lmdeploy-qos" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>背景<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>在过去一段时间，推理框架伴随着LLM和AGI出现。许多推理框架为语言模型提供可扩展和高性能的在线工作负载服务。它们的工作负载通常涉及多个用户群体，而且工作负载在短时间内快速变化。许多推理框架在满足这些多租户流量模式的要求方面存在困难，而且未能很好的规范约束用户的行为，所以我们认为在LLM推理框架考虑多用户负载均衡是很有必要的。</p>
+</div>
+<div class="section" id="id2">
+<h2>多租户处理的用户分类<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>LMDeploy-QoS与LMDeploy 提供一系列多租户功能。它要求用户使用适当的用户标识(配置文件或代码库中的user_id)标记其推理请求。它是基于字典的配置作为多租户策略。在这个配置中，用户被映射到不同“用户组”中，并配备一个使用配额。我们的多租户策略可以读取配置，并根据其用户组的优先级和预定义配额与实时分配比率之间的差异安排用户推理请求的调度。经过完备的测试，我们的LMDeploy-QoS模块极大地提高了LLM的服务可靠性并提升了大型语言模型推理工作的GPU资源利用率。</p>
+<p>LMDeploy将用户分为4组：</p>
+<ul class="simple">
+<li><p>白金（Platinum）</p></li>
+<li><p>金（Gold）</p></li>
+<li><p>银（Silver）</p></li>
+<li><p>青铜（Bronze）</p></li>
+</ul>
+<p>根据我们在提供LLM服务方面的使用经验，我们可以将以下4种类型的用户映射到这些用户组中：</p>
+<ul class="simple">
+<li><p>Platinum : VIP用户或管理员用户。包括需要不间断使用的的服务开发人员或演示人员。他们的工作负载频率低，对推理工作的资源需求也不高。</p></li>
+<li><p>Gold : 签署定期服务的高级用户，他们需要可衡量的可靠服务。例如，某个公司A与LLM服务提供商签订了合同，购买了每秒X个请求的服务能力，可用性为Z%，供A公司员工使用，年付Y百万美元。</p></li>
+<li><p>Silver : 绝大多数用户。大多数试用或每月订阅的用户被归类为此类别。他们需要相对较少的服务，但他们的用户体验对于LLM服务的声誉也很重要。</p></li>
+<li><p>Bronze : 支付很少费用给LLM提供商的重度用户。</p></li>
+</ul>
+<p>以上引入用户组分类的目的是为了提供指导，而不是为所有LMDeploy用户提供建议，因为这并不一定适用于所有LLM业务提供商。管理员可以对用户的日常负载进行统计，自行决定如何对用户进行分类。</p>
+<p>接下来让我们讨论一下LMDeploy如何根据这些分类进行分配请求。</p>
+</div>
+<div class="section" id="id3">
+<h2>多租户策略<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h3>策略 1: 用户组之间的优先级调度<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>我们引入“用户组”概念。由模块使用者来定义哪些用户到用户组的映射（可以理解为 uid 到用户组的映射）。推荐用户组为4组如下：</p>
+<ul class="simple">
+<li><p>Platinum</p></li>
+<li><p>Gold</p></li>
+<li><p>Silver</p></li>
+<li><p>Bronze</p></li>
+</ul>
+<p>四个用户组之间的优先级顺序是严格的 Platinum &gt; Gold &gt; Silver &gt; Bronze 。当系统繁忙的时候，我们会优先执行排名靠前的请求。</p>
+<p>下面的图表显示了优先级处理的工作原理。您可以看到 Platinum 请求已被重新设置优先级并移至队列头部。</p>
+<p><img alt="" src="https://github.com/InternLM/lmdeploy/assets/52888924/9d63f081-7168-4c74-8456-24f0a4b41649" /></p>
+</div>
+<div class="section" id="id5">
+<h3>策略 2: 用户组内均摊与软隔离<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>这个策略仅适用于用户组内部。我们引入了一个用户组内的用户配额配置表。该表定义了用户在 100% GPU 资源中的 “理想份额比例”。每个 “用户” 在列表中以 user_id 的形式出现，并且一个用户只能属于一个用户组。低于配额表上额定值的用户会比高于额定值的用户拥有更高的优先级获得被释放资源而进行更多的推理，直到双方使用量趋近于原始配额比例。此处调度只考虑请求队列中的用户，忽略没有出现在请求队列中的已配置用户。</p>
+<p>以下图表展示了这种策略的典型示例。</p>
+<p><img alt="" src="https://github.com/InternLM/lmdeploy/assets/52888924/3e1d7135-6b11-4998-89a1-b72af6c962c3" /></p>
+</div>
+<div class="section" id="id6">
+<h3>策略3：混合机制<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>是指在一个系统中优先级+均摊/隔离同时开启。执行顺序是先用户组间优先级，再在组内做均摊/隔离实现。这里略去时序图描写。需要注意的是，用户组间的优先级可以压倒性覆盖组内的决策。例如，当低优先级内部的两个用户互相之间有请求顺序调度时，高优先级的请求一旦抵达，将会覆盖所有低优先级的分配逻辑而有限执行高优任务。</p>
+<p><img alt="" src="https://github.com/InternLM/lmdeploy/assets/52888924/e335f976-ff15-48db-b1ff-abf1c3327d6e" /></p>
+<p>需要注意的是，混合机制可能有其他方法，本文档只介绍了一种在我们场景下有效的方法。其他混合方法需要考虑到优先级和按比例共享明显是相互冲突的策略，因此没有简单的方法将它们混合在单一维度内工作。</p>
+</div>
+</div>
+<div class="section" id="qos">
+<h2>QoS 配置项模板<a class="headerlink" href="#qos" title="永久链接至标题">¶</a></h2>
+<p>配置文件通过启动参数<code class="docutils literal notranslate"><span class="pre">--qos-config-path</span></code>指定，并由程序在启动时加载。</p>
+<p>配置会和lmdeploy启动脚本等文件放置在一起。配置内容包含：</p>
+<ol class="arabic simple">
+<li><p>QoS的启用开关，设置为True时后续的QoS和用户相关配置才会生效，设置为False后续配置不会生效；</p></li>
+<li><p>user_groups 是一个列表，包含了多种不同的组间优先级；</p></li>
+<li><p>user_group_map 的映射配置，包含了用户组优先级，组内用户id以及每个用户组内用户的配额分配。</p></li>
+</ol>
+<p>配置项模板如下：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enable_user_qos&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;user_groups&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;Platinum&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;Gold&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;Silver&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;Bronze&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;user_group_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Platinum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id0&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;Gold&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id1&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id2&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;Silver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id3&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">95</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;Bronze&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id4&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id5&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_id6&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;quota_pct&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>如何使用 LMDeploy-QoS 感知进行推理<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>我们提供以下代码链接，展示如何调用具有多租户策略感知的推理请求，在 HTTP Body 中，与 QoS 相关的参数如下：</p>
+<p>/v1/chat/interactive_qos</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost/v1/chat/interactive_qos<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;prompt&quot;: &quot;Hello,Hello&quot;,</span>
+<span class="s1">  &quot;session_id&quot;: -1,</span>
+<span class="s1">  &quot;interactive_mode&quot;: false,</span>
+<span class="s1">  &quot;stream&quot;: false,</span>
+<span class="s1">  &quot;stop&quot;: false,</span>
+<span class="s1">  &quot;request_output_len&quot;: 512,</span>
+<span class="s1">  &quot;top_p&quot;: 0.8,</span>
+<span class="s1">  &quot;top_k&quot;: 40,</span>
+<span class="s1">  &quot;temperature&quot;: 0.8,</span>
+<span class="s1">  &quot;repetition_penalty&quot;: 1,</span>
+<span class="s1">  &quot;ignore_eos&quot;: false,</span>
+<span class="s1">  &quot;user_id&quot;: &quot;user_id0&quot;</span>
+<span class="s1">}&#39;</span>
+</pre></div>
+</div>
+<p>/v1/chat/completions_qos</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost/v1/chat/completions_qos<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;model&quot;: &quot;internlm-chat-7b&quot;,</span>
+<span class="s1">  &quot;messages&quot;: &quot;Hello,Hello&quot;,</span>
+<span class="s1">  &quot;temperature&quot;: 0.7,</span>
+<span class="s1">  &quot;top_p&quot;: 1,</span>
+<span class="s1">  &quot;n&quot;: 1,</span>
+<span class="s1">  &quot;max_tokens&quot;: 512,</span>
+<span class="s1">  &quot;stop&quot;: false,</span>
+<span class="s1">  &quot;stream&quot;: false,</span>
+<span class="s1">  &quot;presence_penalty&quot;: 0,</span>
+<span class="s1">  &quot;frequency_penalty&quot;: 0,</span>
+<span class="s1">  &quot;repetition_penalty&quot;: 1,</span>
+<span class="s1">  &quot;session_id&quot;: -1,</span>
+<span class="s1">  &quot;ignore_eos&quot;: false,</span>
+<span class="s1">  &quot;user_id&quot;: &quot;user_id0&quot;</span>
+<span class="s1">}&#39;</span>
+</pre></div>
+</div>
+<p>/v1/completions_qos</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost/v1/completions_qos<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;model&quot;: &quot;internlm-chat-7b&quot;,</span>
+<span class="s1">  &quot;prompt&quot;: &quot;Hello,Hello&quot;,</span>
+<span class="s1">  &quot;suffix&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;temperature&quot;: 0.7,</span>
+<span class="s1">  &quot;n&quot;: 1,</span>
+<span class="s1">  &quot;max_tokens&quot;: 16,</span>
+<span class="s1">  &quot;stop&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;stream&quot;: false,</span>
+<span class="s1">  &quot;top_p&quot;: 1,</span>
+<span class="s1">  &quot;repetition_penalty&quot;: 1,</span>
+<span class="s1">  &quot;session_id&quot;: -1,</span>
+<span class="s1">  &quot;ignore_eos&quot;: false,</span>
+<span class="s1">  &quot;user_id&quot;: &quot;user_id0&quot;</span>
+<span class="s1">}&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>配置文件修改<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p>配置文件模板路径为：<code class="docutils literal notranslate"><span class="pre">lmdeploy/server/qos_engine/qos_config.json.template</span></code>，可以根据实际需求添加需要配置的用户，设置正确的优先级以及quota值。</p>
+</div>
+<div class="section" id="id9">
+<h2>配置参数传入<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>启动api_server时，通过<code class="docutils literal notranslate"><span class="pre">--qos-config-path</span></code>，将配置文件及路径传入，示例如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>lmdeploy<span class="w"> </span>serve<span class="w"> </span>api_server<span class="w"> </span>internlm/internlm-chat-7b<span class="w"> </span>--server-port<span class="w"> </span><span class="m">8000</span><span class="w"> </span>--qos-config-path<span class="w"> </span>lmdeploy/serve/qos_engine/qos_config.json.template
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>贡献者<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="https://github.com/rhinouser0">Eric</a>, <a class="reference external" href="https://github.com/sallyjunjun">sallyjunjun</a>, <a class="reference external" href="https://github.com/sfireworks">sfireworks</a>, <a class="reference external" href="https://github.com/Dofgal">Dofgal</a>, <a class="reference external" href="https://github.com/awslshadowstar">shadow</a></p>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="../api/pipeline.html" class="btn btn-neutral float-right" title="推理 pipeline" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="../advance/debug_turbomind.html" class="btn btn-neutral" title="如何调试 Turbomind" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">LMDeploy-QoS 介绍与用法</a><ul>
+<li><a class="reference internal" href="#id1">背景</a></li>
+<li><a class="reference internal" href="#id2">多租户处理的用户分类</a></li>
+<li><a class="reference internal" href="#id3">多租户策略</a><ul>
+<li><a class="reference internal" href="#id4">策略 1: 用户组之间的优先级调度</a></li>
+<li><a class="reference internal" href="#id5">策略 2: 用户组内均摊与软隔离</a></li>
+<li><a class="reference internal" href="#id6">策略3：混合机制</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#qos">QoS 配置项模板</a></li>
+<li><a class="reference internal" href="#id7">如何使用 LMDeploy-QoS 感知进行推理</a></li>
+<li><a class="reference internal" href="#id8">配置文件修改</a></li>
+<li><a class="reference internal" href="#id9">配置参数传入</a></li>
+<li><a class="reference internal" href="#id10">贡献者</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

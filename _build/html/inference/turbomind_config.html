@@ -1,0 +1,639 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TurboMind 配置 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="lmdeploy.pytorch 架构" href="pytorch.html" />
+  <link rel="prev" title="TurboMind 框架" href="turbomind.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>TurboMind 配置</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//inference/turbomind_config.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="turbomind">
+<h1>TurboMind 配置<a class="headerlink" href="#turbomind" title="永久链接至标题">¶</a></h1>
+<p>TurboMind 是 LMDeploy 的推理引擎，在用它推理 LLM 模型时，需要把输入模型转成 TurboMind 模型。在 TurboMind 的模型文件夹中，除模型权重外，TurboMind 模型还包括其他一些文件，其中最重要的是和推理性能息息相关的配置文件<code class="docutils literal notranslate"><span class="pre">triton_models/weights/config.ini</span></code>。</p>
+<p>如果你使用的是 LMDeploy 0.0.x 版本，请参考<a class="reference internal" href="#turbomind-1-0">turbomind 1.0 配置</a>章节，了解配置中的相关内容。如果使用的是 LMDeploy 0.1.x 版本，请阅读<a class="reference internal" href="#turbomind-2-0">turbomind 2.0 配置</a>了解配置细节。</p>
+<div class="section" id="turbomind-2-0">
+<h2>TurboMind 2.0 配置<a class="headerlink" href="#turbomind-2-0" title="永久链接至标题">¶</a></h2>
+<p>以 <code class="docutils literal notranslate"><span class="pre">llama-2-7b-chat</span></code> 模型为例，在 TurboMind 2.0 中，它的<code class="docutils literal notranslate"><span class="pre">config.ini</span></code>内容如下：</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span>[llama]
+model_name = llama2
+tensor_para_size = 1
+head_num = 32
+kv_head_num = 32
+vocab_size = 32000
+num_layer = 32
+inter_size = 11008
+norm_eps = 1e-06
+attn_bias = 0
+start_id = 1
+end_id = 2
+session_len = 4104
+weight_type = fp16
+rotary_embedding = 128
+rope_theta = 10000.0
+size_per_head = 128
+group_size = 0
+max_batch_size = 64
+max_context_token_num = 1
+step_length = 1
+cache_max_entry_count = 0.5
+cache_block_seq_len = 128
+cache_chunk_size = 1
+use_context_fmha = 1
+quant_policy = 0
+max_position_embeddings = 2048
+rope_scaling_factor = 0.0
+use_logn_attn = 0
+</pre></div>
+</div>
+<p>这些参数由模型属性和推理参数组成。模型属性包括层数、head个数、维度等等，它们<strong>不可修改</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span>model_name = llama2
+head_num = 32
+kv_head_num = 32
+vocab_size = 32000
+num_layer = 32
+inter_size = 11008
+norm_eps = 1e-06
+attn_bias = 0
+start_id = 1
+end_id = 2
+rotary_embedding = 128
+rope_theta = 10000.0
+size_per_head = 128
+</pre></div>
+</div>
+<p>和 TurboMind 1.0 config 相比，TurboMind 2.0 config 中的模型属性部分和 1.0 一致，但推理参数发生了变化。</p>
+<p>在接下来的章节中，我们重点介绍推理参数。</p>
+<div class="section" id="id1">
+<h3>数据类型<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>和数据类型相关的参数是 <code class="docutils literal notranslate"><span class="pre">weight_type</span></code> 和 <code class="docutils literal notranslate"><span class="pre">group_size</span></code>。它们<strong>不可被修改</strong>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">weight_type</span></code> 表示权重的数据类型。目前支持 fp16 和 int4。int4 表示 4bit 权重。当 <code class="docutils literal notranslate"><span class="pre">weight_type</span></code>为 4bit 权重时，<code class="docutils literal notranslate"><span class="pre">group_size</span></code> 表示 <code class="docutils literal notranslate"><span class="pre">awq</span></code> 量化权重时使用的 group 大小。目前，在 LMDeploy 的预编译包中，使用的是 <code class="docutils literal notranslate"><span class="pre">group_size</span> <span class="pre">=</span> <span class="pre">128</span></code>。</p>
+</div>
+<div class="section" id="id2">
+<h3>批处理大小<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>仍通过 <code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code> 设置最大批处理量。默认值由原来的 32 改成 64。
+在 TurboMind 2.0 中，<code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code>无关。</p>
+</div>
+<div class="section" id="k-v">
+<h3>k/v 缓存大小<a class="headerlink" href="#k-v" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">cache_block_seq_len</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 用来调节 k/v cache 的内存大小。</p>
+<p>TurboMind 2.0 实现了 Paged Attention，按块管理 k/v cache。</p>
+<p><code class="docutils literal notranslate"><span class="pre">cache_block_seq_len</span></code> 表示一块 k/v block 可以存放的 token 序列长度，默认 128。TurboMind 按照以下公式计算 k/v block 的内存大小：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cache_block_seq_len</span> <span class="o">*</span> <span class="n">num_layer</span> <span class="o">*</span> <span class="n">kv_head_num</span> <span class="o">*</span> <span class="n">size_per_head</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">kv_data_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>对于 llama2-7b 模型来说，以 half 类型存放 k/v 时，一块 k/v block 的内存为：<code class="docutils literal notranslate"><span class="pre">128</span> <span class="pre">*</span> <span class="pre">32</span> <span class="pre">*</span> <span class="pre">32</span> <span class="pre">*</span> <span class="pre">128</span> <span class="pre">*</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">sizeof(half)</span> <span class="pre">=</span> <span class="pre">64MB</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 根据取值不同，表示不同的含义：</p>
+<ul class="simple">
+<li><p>当值为 (0, 1) 之间的小数时，<code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 表示 k/v block 使用的内存百分比。比如 A100-80G 显卡内存是80G，当<code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code>为0.5时，表示 k/v block 使用的内存总量为 80 * 0.5 = 40G</p></li>
+<li><p>当 lmdeploy 版本大于 0.2.1 时，<code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 将<strong>空闲</strong>内存的百分比用于 k/v blocks，默认值为 <code class="docutils literal notranslate"><span class="pre">0.8</span></code>。例如，在 A100-80G GPU 上运行 Turbomind 加载 13b 模型时，k/v blocks 使用的内存为 <code class="docutils literal notranslate"><span class="pre">(80</span> <span class="pre">-</span> <span class="pre">26)</span> <span class="pre">*</span> <span class="pre">0.8</span> <span class="pre">=</span> <span class="pre">43.2G</span></code>，即利用剩余 54G 中的 80%</p></li>
+<li><p>当值为 &gt; 1的整数时，表示 k/v block 数量</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">cache_chunk_size</span></code> 表示在每次需要新的 k/v cache 块时，开辟 k/v cache 块的大小。不同的取值，表示不同的含义：</p>
+<ul class="simple">
+<li><p>当为 &gt; 0 的整数时，开辟 <code class="docutils literal notranslate"><span class="pre">cache_chunk_size</span></code> 个 k/v cache 块</p></li>
+<li><p>当值为 -1 时，开辟 <code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 个 k/v cache 块</p></li>
+<li><p>当值为 0 时，时，开辟 <code class="docutils literal notranslate"><span class="pre">sqrt(cache_max_entry_count)</span></code> 个 k/v cache 块</p></li>
+</ul>
+</div>
+<div class="section" id="kv-int8">
+<h3>kv int8 开关<a class="headerlink" href="#kv-int8" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">quant_policy</span></code>是 KV-int8 推理开关。具体使用方法，请参考 <a class="reference internal" href="../quantization/kv_int8.html"><span class="std std-doc">kv int8</span></a> 部署文档</p>
+</div>
+<div class="section" id="id3">
+<h3>外推能力开关<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>默认 <code class="docutils literal notranslate"><span class="pre">rope_scaling_factor</span> <span class="pre">=</span> <span class="pre">0</span></code> 不具备外推能力。设置为 1.0，可以开启 RoPE 的 Dynamic NTK 功能，支持长文本推理。</p>
+<p>关于 Dynamic NTK 的原理，详细请参考：</p>
+<ol class="arabic simple">
+<li><p>https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases</p></li>
+<li><p>https://kexue.fm/archives/9675</p></li>
+</ol>
+<p>设置 <code class="docutils literal notranslate"><span class="pre">use_logn_attn</span> <span class="pre">=</span> <span class="pre">1</span></code>，可以开启 <a class="reference external" href="https://kexue.fm/archives/8823">LogN attention scaling</a>。</p>
+</div>
+</div>
+<div class="section" id="turbomind-1-0">
+<h2>TurboMind 1.0 配置<a class="headerlink" href="#turbomind-1-0" title="永久链接至标题">¶</a></h2>
+<p>以 <code class="docutils literal notranslate"><span class="pre">llama-2-7b-chat</span></code> 模型为例，在 TurboMind 1.0 中，它的<code class="docutils literal notranslate"><span class="pre">config.ini</span></code>内容如下：</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span>[llama]
+model_name = llama2
+tensor_para_size = 1
+head_num = 32
+kv_head_num = 32
+vocab_size = 32000
+num_layer = 32
+inter_size = 11008
+norm_eps = 1e-06
+attn_bias = 0
+start_id = 1
+end_id = 2
+session_len = 4104
+weight_type = fp16
+rotary_embedding = 128
+rope_theta = 10000.0
+size_per_head = 128
+group_size = 0
+max_batch_size = 32
+max_context_token_num = 4
+step_length = 1
+cache_max_entry_count = 48
+cache_chunk_size = 1
+use_context_fmha = 1
+quant_policy = 0
+max_position_embeddings = 2048
+use_dynamic_ntk = 0
+use_logn_attn = 0
+</pre></div>
+</div>
+<p>这些参数由模型属性和推理参数组成。模型属性包括层数、head个数、维度等等，它们<strong>不可修改</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span>model_name = llama2
+head_num = 32
+kv_head_num = 32
+vocab_size = 32000
+num_layer = 32
+inter_size = 11008
+norm_eps = 1e-06
+attn_bias = 0
+start_id = 1
+end_id = 2
+rotary_embedding = 128
+rope_theta = 10000.0
+size_per_head = 128
+</pre></div>
+</div>
+<p>在接下来的章节中，我们重点介绍推理参数。</p>
+<div class="section" id="id4">
+<h3>数据类型<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>和数据类型相关的参数是 <code class="docutils literal notranslate"><span class="pre">weight_type</span></code> 和 <code class="docutils literal notranslate"><span class="pre">group_size</span></code>。它们<strong>不可被修改</strong>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">weight_type</span></code> 表示权重的数据类型。目前支持 fp16 和 int4。int4 表示 4bit 权重。当 <code class="docutils literal notranslate"><span class="pre">weight_type</span></code>为 4bit 权重时，<code class="docutils literal notranslate"><span class="pre">group_size</span></code> 表示 <code class="docutils literal notranslate"><span class="pre">awq</span></code> 量化权重时使用的 group 大小。目前，在 LMDeploy 的预编译包中，使用的是 <code class="docutils literal notranslate"><span class="pre">group_size</span> <span class="pre">=</span> <span class="pre">128</span></code>。</p>
+</div>
+<div class="section" id="id5">
+<h3>批处理大小<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>可通过<code class="docutils literal notranslate"><span class="pre">max_batch_size</span></code>调节推理时最大的 batch 数。一般，batch 越大吞吐量越高。但务必保证 <code class="docutils literal notranslate"><span class="pre">max_batch_size</span> <span class="pre">&lt;=</span> <span class="pre">cache_max_entry_count</span></code></p>
+</div>
+<div class="section" id="k-v-cache">
+<h3>k/v cache 大小<a class="headerlink" href="#k-v-cache" title="永久链接至标题">¶</a></h3>
+<p>TurboMind 根据 <code class="docutils literal notranslate"><span class="pre">session_len</span></code>、 <code class="docutils literal notranslate"><span class="pre">cache_chunk_size</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 开辟 k/v cache 内存。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">session_len</span></code> 表示一个序列的最大长度，即 context window 的大小。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cache_chunk_size</span></code> 表示当新增对话序列时，每次要开辟多少个序列的 k/v cache</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cache_max_entry_count</span></code> 表示最多缓存多少个对话序列</p></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>kv int8 开关<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>当启动 8bit k/v 推理时，需要修改参数 <code class="docutils literal notranslate"><span class="pre">quant_policy</span></code> 和 <code class="docutils literal notranslate"><span class="pre">use_context_fmha</span></code>。详细内容请查阅 <a class="reference internal" href="../quantization/kv_int8.html"><span class="std std-doc">kv int8</span></a> 部署文档。</p>
+</div>
+<div class="section" id="id7">
+<h3>外推能力开关<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>设置 <code class="docutils literal notranslate"><span class="pre">use_dynamic_ntk</span> <span class="pre">=</span> <span class="pre">1</span></code>，可以开启 RoPE 的 Dynamic NTK 选项，支持长文本推理。</p>
+<p>关于 Dynamic NTK 的原理，详细请参考：</p>
+<ol class="arabic simple">
+<li><p>https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases</p></li>
+<li><p>https://kexue.fm/archives/9675</p></li>
+</ol>
+<p>设置 <code class="docutils literal notranslate"><span class="pre">use_logn_attn</span> <span class="pre">=</span> <span class="pre">1</span></code>，可以开启 <a class="reference external" href="https://kexue.fm/archives/8823">LogN attention scaling</a>。</p>
+</div>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="pytorch.html" class="btn btn-neutral float-right" title="lmdeploy.pytorch 架构" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="turbomind.html" class="btn btn-neutral" title="TurboMind 框架" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">TurboMind 配置</a><ul>
+<li><a class="reference internal" href="#turbomind-2-0">TurboMind 2.0 配置</a><ul>
+<li><a class="reference internal" href="#id1">数据类型</a></li>
+<li><a class="reference internal" href="#id2">批处理大小</a></li>
+<li><a class="reference internal" href="#k-v">k/v 缓存大小</a></li>
+<li><a class="reference internal" href="#kv-int8">kv int8 开关</a></li>
+<li><a class="reference internal" href="#id3">外推能力开关</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#turbomind-1-0">TurboMind 1.0 配置</a><ul>
+<li><a class="reference internal" href="#id4">数据类型</a></li>
+<li><a class="reference internal" href="#id5">批处理大小</a></li>
+<li><a class="reference internal" href="#k-v-cache">k/v cache 大小</a></li>
+<li><a class="reference internal" href="#id6">kv int8 开关</a></li>
+<li><a class="reference internal" href="#id7">外推能力开关</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

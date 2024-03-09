@@ -1,0 +1,517 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lmdeploy.pytorch 架构 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="部署类 openai 服务" href="../serving/restful_api.html" />
+  <link rel="prev" title="TurboMind 配置" href="turbomind_config.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>lmdeploy.pytorch 架构</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//inference/pytorch.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="lmdeploy-pytorch">
+<h1>lmdeploy.pytorch 架构<a class="headerlink" href="#lmdeploy-pytorch" title="永久链接至标题">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">lmdeploy.pytorch</span></code> 是 LMDeploy 提供的推理后端之一。与着重于性能的 turbomind 相比，lmdeploy.pytorch 以较小的性能开销为代价，提供了一套更容易开发与扩展的大模型推理实现。</p>
+<div class="section" id="id1">
+<h2>设计<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p><img alt="pytorch arch" src="https://github.com/grimoire/lmdeploy/blob/media/lmdeploy_pytorch_arch.png?raw=true" /></p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h2>
+<p>lmdeploy.pytorch 可以与 turbomind 共享同样的服务接口，这些服务接口通过 Engine 与 EngineInstance 与 lmdeploy.pytorch 进行交互。</p>
+<p>EngineInstance 是推理请求的发起者，它会将推理请求组织成特定格式发送给 Engine，以此实现流式推理。EngineInstance 的推理接口是线程安全的，服务发起者可以在不同线程中启动各自的 EngineInstance，Engine 回根据当前资源与推理请求自动进行 batch 化处理。</p>
+<p>Engine 是推理请求的接收与执行者。它包含如下的组件来完成这项任务：</p>
+<ul class="simple">
+<li><p>ModelAgent 对象负责模型的加载、缓存管理以及 tensor parallelism 的管理。</p></li>
+<li><p>Scheduler 对象负责 session 的管理，sequence 与 lora adapter 所需要的资源的分配。</p></li>
+<li><p>RequestManager 负责请求的发送与接收，可以通过它与 EngineInstance 交互。</p></li>
+</ul>
+</div>
+<div class="section" id="engine">
+<h2>Engine<a class="headerlink" href="#engine" title="永久链接至标题">¶</a></h2>
+<p>为了应对异步推理请求，Engine 在启动后会维护一个线程，循环如下操作：</p>
+<ol class="arabic simple">
+<li><p>通过 RequestManager 读取请求，对各种请求进行分类处理。</p></li>
+<li><p>Scheduler 规划哪些请求可以被处理，以及它们所需的缓存和 adapters。</p></li>
+<li><p>ModelAgent 根据步骤 2. 得到的信息为输入分配资源，然后使用 patch 后的模型进行推理</p></li>
+<li><p>Scheduler 根据推理结果更新请求状态</p></li>
+<li><p>RequestManager 将输出返回给发送者（EngineInstance），回到步骤 1.</p></li>
+</ol>
+<p>下面我们将介绍上述步骤中用到的几个重要组件</p>
+<div class="section" id="scheduler">
+<h3>Scheduler<a class="headerlink" href="#scheduler" title="永久链接至标题">¶</a></h3>
+<p>在进行大模型的推理时，通常会把 attention 的历史输入 key 和 value 缓存起来，以避免在未来的推理中进行重复计算。这种情况下如果要进行多 batch 的推理，由于不同数据的序列长度可能不同，kv 会进行大量的填充，浪费很多显存资源，也限制了模型的并发推理能力上限。</p>
+<p><a class="reference external" href="https://docs.vllm.ai">vLLM</a> 提了一种 paging 策略，以 page block 为单位为 key value 分配缓存，这样就可以避免由于 padding 导致的显存浪费。 lmdeploy.pytorch 中的 Scheduler 也遵循同样的设计，根据请求的长度合理分配所需的资源，并撤出暂时不使用的资源以保证存储资源的高效利用。</p>
+<p>lmdeploy.pytorch 还对 <a class="reference external" href="https://github.com/S-LoRA/S-LoRA">S-LoRA</a> 的支持，S-LoRA 是一种对单模型多 adapter 的支持方案。LoRA 在推理时通常会把 adapter 融合进模型权重当中，同时使用复数个 adapter 会导致显存使用量的激增；S-LoRA 不对 adapter 进行融合，通过使用 unified paging，在推理时动态换入需要使用的 adapter，大幅降低了使用 adapter 的显存开销。Scheduler 中也实现了相关的功能，让用户可以更方便的使用自己的 adapter.</p>
+</div>
+<div class="section" id="modelagent">
+<h3>ModelAgent<a class="headerlink" href="#modelagent" title="永久链接至标题">¶</a></h3>
+<p>lmdeploy.pytorch 中对 Tensor Parallelism（TP）进行了支持，不同的 TP 参数对模型的构造、权重处理、分配 cache 都存在影响。ModelAgent 对这些内容进行了封装，让 Engine 不用再关心这部分细节。</p>
+<p>ModelAgent 有两个重要组件：</p>
+<ol class="arabic simple">
+<li><p>patched_model 是更新后的 transformer 模型，更新后的模型添加了各种功能的支持，包括更高性能的子模块实现、TP、量化等等</p></li>
+<li><p>cache_engine 是缓存的分配与交换模块。它接收来自 scheduler 的交换请求，执行 host-device 间显存交换，adapter 加载等工作</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="patching">
+<h2>Patching<a class="headerlink" href="#patching" title="永久链接至标题">¶</a></h2>
+<p>为了降低接入模型的门槛，我们实现了一套简单的 patch 机制来简化实现的替换。</p>
+<p>以 Llama 模型的 LlamaAttention.forward 为例，我们可以重新写一个 forward 的实现：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomLlamaAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+        <span class="c1"># custom forward</span>
+</pre></div>
+</div>
+<p>然后在 <code class="docutils literal notranslate"><span class="pre">lmdeploy.pytorch.models.module_map</span></code> 中注册模块的映射</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MODULE_MAP</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+<span class="s1">&#39;transformers.models.llama.modeling_llama.LlamaAttention&#39;</span><span class="p">:</span>
+<span class="s1">&#39;qualname.to.CustomLlamaAttention&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>经过 patch 后的模型就会使用新的 forward 实现。TP、量化等功能也依赖 patch 机制，请阅读 <a class="reference internal" href="../advance/pytorch_new_model.html"><span class="std std-doc">lmdeploy.pytorch 新模型支持</span></a> 了解更多细节。</p>
+</div>
+<div class="section" id="id2">
+<h2>特性<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Continuous Batching</strong>: 由于输入序列的长度不一样，batching 通常需要对输入进行 padding，这种 padding 会导致后续运算的计算量增加、影响速度，也会使得显存的占用大幅增加。遵循许多其他成熟框架的方案，lmdeploy.pytorch 采用了 continuous batching 的方式对输入做了连续化处理，避免了多余的资源占用。</p></li>
+<li><p><strong>Tensor Parallelism</strong>: 大模型可能会占用远超一张显卡的显存量，为了支持这样的大模型的推理，我们实现了 Tensor 并发，模型的权重会被分布在不同的设备中，每张 GPU 设备负责一部分计算，减少了单卡显存占用，也充分利用了多显卡的计算优势。</p></li>
+<li><p><strong>S-LoRA</strong>: LoRA adapter 可以帮助我们使用有限的显存来调优大模型，S-LoRA 可以帮助我们在有限的显存中同时使用复数个 LoRA 权重，扩展模型的能力。</p></li>
+<li><p><strong>Quantization</strong>: 量化可以帮助我们进一步减少显存占用，提高推理性能。lmdeploy.pytorch 分支中添加了 w8a8 模型量化的支持，可以阅读 <a class="reference internal" href="../quantization/w8a8.html"><span class="std std-doc">w8a8</span></a> 了解更多细节。</p></li>
+</ul>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="../serving/restful_api.html" class="btn btn-neutral float-right" title="部署类 openai 服务" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="turbomind_config.html" class="btn btn-neutral" title="TurboMind 配置" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">lmdeploy.pytorch 架构</a><ul>
+<li><a class="reference internal" href="#id1">设计</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+<li><a class="reference internal" href="#engine">Engine</a><ul>
+<li><a class="reference internal" href="#scheduler">Scheduler</a></li>
+<li><a class="reference internal" href="#modelagent">ModelAgent</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#patching">Patching</a></li>
+<li><a class="reference internal" href="#id2">特性</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

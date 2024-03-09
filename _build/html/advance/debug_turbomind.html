@@ -1,0 +1,576 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>如何调试 Turbomind &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="LMDeploy-QoS 介绍与用法" href="../serving/qos.html" />
+  <link rel="prev" title="长文本外推" href="long_context.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="long_context.html">长文本外推</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>如何调试 Turbomind</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//advance/debug_turbomind.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="turbomind">
+<h1>如何调试 Turbomind<a class="headerlink" href="#turbomind" title="永久链接至标题">¶</a></h1>
+<p>Turbomind 使用 C++ 实现，不像 Python 一样易于调试。该文档提供了调试 Turbomind 的基本方法。</p>
+<div class="section" id="id1">
+<h2>前置工作<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>首先，根据构建<a class="reference internal" href="../build.html"><span class="std std-doc">命令</span></a>完成本地编译。</p>
+</div>
+<div class="section" id="python">
+<h2>配置 Python 调试环境<a class="headerlink" href="#python" title="永久链接至标题">¶</a></h2>
+<p>由于目前许多大公司在线上生产环境中使用 Centos 7，我们将以 Centos 7 为例来说明配置过程。</p>
+<div class="section" id="glibc-python3">
+<h3>获取 <code class="docutils literal notranslate"><span class="pre">glibc</span></code> 和 <code class="docutils literal notranslate"><span class="pre">python3</span></code> 的版本<a class="headerlink" href="#glibc-python3" title="永久链接至标题">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rpm<span class="w"> </span>-qa<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>glibc
+rpm<span class="w"> </span>-qa<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>python3
+</pre></div>
+</div>
+<p>结果类似于这样：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">username</span><span class="nd">@hostname</span> <span class="n">workdir</span><span class="p">]</span><span class="c1"># rpm -qa | grep glibc</span>
+<span class="n">glibc</span><span class="o">-</span><span class="mf">2.17</span><span class="o">-</span><span class="mf">325.</span><span class="n">el7_9</span><span class="o">.</span><span class="n">x86_64</span>
+<span class="n">glibc</span><span class="o">-</span><span class="n">common</span><span class="o">-</span><span class="mf">2.17</span><span class="o">-</span><span class="mf">325.</span><span class="n">el7_9</span><span class="o">.</span><span class="n">x86_64</span>
+<span class="n">glibc</span><span class="o">-</span><span class="n">headers</span><span class="o">-</span><span class="mf">2.17</span><span class="o">-</span><span class="mf">325.</span><span class="n">el7_9</span><span class="o">.</span><span class="n">x86_64</span>
+<span class="n">glibc</span><span class="o">-</span><span class="n">devel</span><span class="o">-</span><span class="mf">2.17</span><span class="o">-</span><span class="mf">325.</span><span class="n">el7_9</span><span class="o">.</span><span class="n">x86_64</span>
+
+<span class="p">[</span><span class="n">username</span><span class="nd">@hostname</span> <span class="n">workdir</span><span class="p">]</span><span class="c1"># rpm -qa | grep python3</span>
+<span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="mf">9.0.3</span><span class="o">-</span><span class="mf">8.</span><span class="n">el7</span><span class="o">.</span><span class="n">noarch</span>
+<span class="n">python3</span><span class="o">-</span><span class="n">rpm</span><span class="o">-</span><span class="n">macros</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mf">34.</span><span class="n">el7</span><span class="o">.</span><span class="n">noarch</span>
+<span class="n">python3</span><span class="o">-</span><span class="n">rpm</span><span class="o">-</span><span class="n">generators</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mf">2.</span><span class="n">el7</span><span class="o">.</span><span class="n">noarch</span>
+<span class="n">python3</span><span class="o">-</span><span class="n">setuptools</span><span class="o">-</span><span class="mf">39.2.0</span><span class="o">-</span><span class="mf">10.</span><span class="n">el7</span><span class="o">.</span><span class="n">noarch</span>
+<span class="n">python3</span><span class="o">-</span><span class="mf">3.6.8</span><span class="o">-</span><span class="mf">21.</span><span class="n">el7_9</span><span class="o">.</span><span class="n">x86_64</span>
+<span class="n">python3</span><span class="o">-</span><span class="n">devel</span><span class="o">-</span><span class="mf">3.6.8</span><span class="o">-</span><span class="mf">21.</span><span class="n">el7_9</span><span class="o">.</span><span class="n">x86_64</span>
+<span class="n">python3</span><span class="mf">.6.4</span><span class="o">-</span><span class="n">sre</span><span class="o">-</span><span class="mf">1.</span><span class="n">el6</span><span class="o">.</span><span class="n">x86_64</span>
+</pre></div>
+</div>
+<p>根据上述信息，我们可以看到 <code class="docutils literal notranslate"><span class="pre">glibc</span></code> 的版本是 <code class="docutils literal notranslate"><span class="pre">2.17-325.el7_9.x86_64</span></code>，<code class="docutils literal notranslate"><span class="pre">python3</span></code> 的版本是 <code class="docutils literal notranslate"><span class="pre">3.6.8-21.el7_9.x86_64</span></code>。</p>
+</div>
+<div class="section" id="debuginfo">
+<h3>下载并安装 <code class="docutils literal notranslate"><span class="pre">debuginfo</span></code> 库<a class="headerlink" href="#debuginfo" title="永久链接至标题">¶</a></h3>
+<p>从 http://debuginfo.centos.org/7/x86_64 下载 <code class="docutils literal notranslate"><span class="pre">glibc-debuginfo-common-2.17-325.el7.x86_64.rpm</span></code>、<code class="docutils literal notranslate"><span class="pre">glibc-debuginfo-2.17-325.el7.x86_64.rpm</span></code> 和 <code class="docutils literal notranslate"><span class="pre">python3-debuginfo-3.6.8-21.el7.x86_64.rpm</span></code>。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rpm<span class="w"> </span>-ivh<span class="w"> </span>glibc-debuginfo-common-2.17-325.el7.x86_64.rpm
+rpm<span class="w"> </span>-ivh<span class="w"> </span>glibc-debuginfo-2.17-325.el7.x86_64.rpm
+rpm<span class="w"> </span>-ivh<span class="w"> </span>python3-debuginfo-3.6.8-21.el7.x86_64.rpm
+</pre></div>
+</div>
+</div>
+<div class="section" id="gdb">
+<h3>升级 GDB<a class="headerlink" href="#gdb" title="永久链接至标题">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>devtoolset-10<span class="w"> </span>-y
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;source scl_source enable devtoolset-10&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>验证<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gdb<span class="w"> </span>python3
+</pre></div>
+</div>
+<p>输出类似于这样：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">username</span><span class="nd">@hostname</span> <span class="n">workdir</span><span class="p">]</span><span class="c1"># gdb python3</span>
+<span class="n">GNU</span> <span class="n">gdb</span> <span class="p">(</span><span class="n">GDB</span><span class="p">)</span> <span class="n">Red</span> <span class="n">Hat</span> <span class="n">Enterprise</span> <span class="n">Linux</span> <span class="mf">9.2</span><span class="o">-</span><span class="mf">10.</span><span class="n">el7</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">2020</span> <span class="n">Free</span> <span class="n">Software</span> <span class="n">Foundation</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span>
+<span class="n">License</span> <span class="n">GPLv3</span><span class="o">+</span><span class="p">:</span> <span class="n">GNU</span> <span class="n">GPL</span> <span class="n">version</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">later</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">gnu</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="n">gpl</span><span class="o">.</span><span class="n">html</span><span class="o">&gt;</span>
+<span class="n">This</span> <span class="ow">is</span> <span class="n">free</span> <span class="n">software</span><span class="p">:</span> <span class="n">you</span> <span class="n">are</span> <span class="n">free</span> <span class="n">to</span> <span class="n">change</span> <span class="ow">and</span> <span class="n">redistribute</span> <span class="n">it</span><span class="o">.</span>
+<span class="n">There</span> <span class="ow">is</span> <span class="n">NO</span> <span class="n">WARRANTY</span><span class="p">,</span> <span class="n">to</span> <span class="n">the</span> <span class="n">extent</span> <span class="n">permitted</span> <span class="n">by</span> <span class="n">law</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;show copying&quot;</span> <span class="ow">and</span> <span class="s2">&quot;show warranty&quot;</span> <span class="k">for</span> <span class="n">details</span><span class="o">.</span>
+<span class="n">This</span> <span class="n">GDB</span> <span class="n">was</span> <span class="n">configured</span> <span class="k">as</span> <span class="s2">&quot;x86_64-redhat-linux-gnu&quot;</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;show configuration&quot;</span> <span class="k">for</span> <span class="n">configuration</span> <span class="n">details</span><span class="o">.</span>
+<span class="n">For</span> <span class="n">bug</span> <span class="n">reporting</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">please</span> <span class="n">see</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">gnu</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">gdb</span><span class="o">/</span><span class="n">bugs</span><span class="o">/&gt;.</span>
+<span class="n">Find</span> <span class="n">the</span> <span class="n">GDB</span> <span class="n">manual</span> <span class="ow">and</span> <span class="n">other</span> <span class="n">documentation</span> <span class="n">resources</span> <span class="n">online</span> <span class="n">at</span><span class="p">:</span>
+   <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">gnu</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">gdb</span><span class="o">/</span><span class="n">documentation</span><span class="o">/&gt;.</span>
+
+<span class="n">For</span> <span class="n">help</span><span class="p">,</span> <span class="nb">type</span> <span class="s2">&quot;help&quot;</span><span class="o">.</span>
+<span class="n">Type</span> <span class="s2">&quot;apropos word&quot;</span> <span class="n">to</span> <span class="n">search</span> <span class="k">for</span> <span class="n">commands</span> <span class="n">related</span> <span class="n">to</span> <span class="s2">&quot;word&quot;</span><span class="o">...</span>
+<span class="n">Reading</span> <span class="n">symbols</span> <span class="kn">from</span> <span class="nn">python3...</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果显示 <code class="docutils literal notranslate"><span class="pre">Reading</span> <span class="pre">symbols</span> <span class="pre">from</span> <span class="pre">python3</span></code>，说明配置成功。</p>
+<p>对于其他操作系统，请参考 <a class="reference external" href="https://wiki.python.org/moin/DebuggingWithGdb">DebuggingWithGdb</a>。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>设置符号链接<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>设置符号链接后，不需要每次都通过 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 进行本地安装。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 更改目录到 lmdeploy，例如</span>
+<span class="nb">cd</span><span class="w"> </span>/workdir/lmdeploy
+
+<span class="c1"># 因为编译文件在 build 文件夹中</span>
+<span class="c1"># 设置 lib 的软链接</span>
+<span class="nb">cd</span><span class="w"> </span>lmdeploy<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../build/lib<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+<span class="c1"># （可选）创建 compile_commands.json 软链接，用于 clangd 构建 index</span>
+ln<span class="w"> </span>-s<span class="w"> </span>build/compile_commands.json<span class="w"> </span>.
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>开始调试<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 使用 gdb 启动 API Server，例如</span>
+gdb<span class="w"> </span>--args<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>lmdeploy<span class="w"> </span>serve<span class="w"> </span>api_server<span class="w"> </span>/workdir/Llama-2-13b-chat-hf
+
+<span class="c1"># 在 gdb 中设置 lmdeploy 文件夹路径</span>
+Reading<span class="w"> </span>symbols<span class="w"> </span>from<span class="w"> </span>python3...
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span>directories<span class="w"> </span>/workdir/lmdeploy
+
+<span class="c1"># 使用相对路径设置断点，例如</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>b<span class="w"> </span>src/turbomind/models/llama/BlockManager.cc:104
+
+<span class="c1"># 当出现</span>
+<span class="c1"># ```</span>
+<span class="c1"># No source file named src/turbomind/models/llama/BlockManager.cc.</span>
+<span class="c1"># Make breakpoint pending on future shared library load? (y or [n])</span>
+<span class="c1"># ```</span>
+<span class="c1"># 输入 y 并回车</span>
+
+<span class="c1"># 运行</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>r
+
+<span class="c1"># (可选) 使用 https://github.com/InternLM/lmdeploy/blob/main/benchmark/profile_restful_api.py 发送请求</span>
+
+python3<span class="w"> </span>profile_restful_api.py<span class="w"> </span>--server_addr<span class="w"> </span><span class="m">127</span>.0.0.1:23333<span class="w"> </span>--tokenizer_path<span class="w"> </span>/workdir/Llama-2-13b-chat-hf<span class="w"> </span>--dataset<span class="w"> </span>/workdir/ShareGPT_V3_unfiltered_cleaned_split.json<span class="w"> </span>--concurrency<span class="w"> </span><span class="m">1</span><span class="w"> </span>--num_prompts<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>使用 GDB<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>参考 <a class="reference external" href="https://lldb.llvm.org/use/map.html">GDB Execution Commands</a> 进行调试。</p>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="../serving/qos.html" class="btn btn-neutral float-right" title="LMDeploy-QoS 介绍与用法" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="long_context.html" class="btn btn-neutral" title="长文本外推" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">如何调试 Turbomind</a><ul>
+<li><a class="reference internal" href="#id1">前置工作</a></li>
+<li><a class="reference internal" href="#python">配置 Python 调试环境</a><ul>
+<li><a class="reference internal" href="#glibc-python3">获取 <code class="docutils literal notranslate"><span class="pre">glibc</span></code> 和 <code class="docutils literal notranslate"><span class="pre">python3</span></code> 的版本</a></li>
+<li><a class="reference internal" href="#debuginfo">下载并安装 <code class="docutils literal notranslate"><span class="pre">debuginfo</span></code> 库</a></li>
+<li><a class="reference internal" href="#gdb">升级 GDB</a></li>
+<li><a class="reference internal" href="#id2">验证</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">设置符号链接</a></li>
+<li><a class="reference internal" href="#id4">开始调试</a></li>
+<li><a class="reference internal" href="#id5">使用 GDB</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

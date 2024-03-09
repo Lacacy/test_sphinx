@@ -1,0 +1,800 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lmdeploy.pytorch 新模型支持 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="长文本外推" href="long_context.html" />
+  <link rel="prev" title="W8A8 LLM 模型部署" href="../quantization/w8a8.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>lmdeploy.pytorch 新模型支持</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//advance/pytorch_new_model.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="lmdeploy-pytorch">
+<h1>lmdeploy.pytorch 新模型支持<a class="headerlink" href="#lmdeploy-pytorch" title="永久链接至标题">¶</a></h1>
+<p>lmdeploy.pytorch 被设计用来简化新模型的支持以及原型的开发，新模型的支持依赖于 patch 机制，对原模型做修改以及功能添加，以期可以最大程度上复用模型的原始实现，减少工作量。</p>
+<div class="section" id="id1">
+<h2>模型支持<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>我们以 transformers 中的 llama 实现来介绍模型支持的流程</p>
+<p>在开始之前，我们首先要了解一下模型的输入。lmdeploy.pytorch 的输入与标准 transformers 模型的输入略有不同，差异主要体现在如下方面：</p>
+<ol class="arabic simple">
+<li><p>由于支持了 continuous batching，一个 batch 的输入 <code class="docutils literal notranslate"><span class="pre">input_ids</span></code> 会被拼接成一维的长序列，然后 <code class="docutils literal notranslate"><span class="pre">unsqueeze(0)</span></code> 来保证输入维度与 transformers 中相同。这样的输入不会影响 MLP 以及 RMSNorm 等模块的计算。</p></li>
+<li><p>由于添加了对 paged attention 的支持，<code class="docutils literal notranslate"><span class="pre">past_key_value</span></code> 不再是原来的大小，而是一组形状为 <code class="docutils literal notranslate"><span class="pre">[num_blocks,</span> <span class="pre">block_size,</span> <span class="pre">num_heads,</span> <span class="pre">head_dim]</span></code> 的 cache 块，num_blocks 为总 block 数量，由可用显存大小决定，block_size 为预设的块大小。这样的输入改变会影响到 LlamaModel 和 LlamaAttention 的计算，因此要对这两个模块的实现进行修改。</p></li>
+<li><p>由于上述输入的改变，模型中需要一些额外的输入来支持推理，比如 batch 中的序列起始位置和长度，kv cache 的 block table 等。这些输入并不在模块的 forward 参数列表中，我们需要维护一个上下文以获得这些输入。</p></li>
+</ol>
+<p>上面的输入改动会影响 LlamaModel 和 LlamaAttention，首先我们来实现新的 LlamaModel，这是对原始实现的简化，我们删除了很多检查代码，以避免由于输入改变造成的断言失败，仅保留了最小程度的代码：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy/pytorch/models/llama.py</span>
+
+<span class="k">class</span> <span class="nc">LlamaModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">position_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">past_key_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">inputs_embeds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_attentions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_hidden_states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">BaseModelOutputWithPast</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rewrite implementation of LlamaModel.forward.&quot;&quot;&quot;</span>
+        <span class="n">inputs_embeds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_tokens</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">inputs_embeds</span>
+
+        <span class="c1"># decoder layers</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">decoder_layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+            <span class="n">past_key_value</span> <span class="o">=</span> <span class="n">past_key_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">layer_outputs</span> <span class="o">=</span> <span class="n">decoder_layer</span><span class="p">(</span>
+                <span class="n">hidden_states</span><span class="p">,</span>
+                <span class="n">attention_mask</span><span class="o">=</span><span class="n">attention_mask</span><span class="p">,</span>
+                <span class="n">position_ids</span><span class="o">=</span><span class="n">position_ids</span><span class="p">,</span>
+                <span class="n">past_key_value</span><span class="o">=</span><span class="n">past_key_value</span><span class="p">,</span>
+                <span class="n">output_attentions</span><span class="o">=</span><span class="n">output_attentions</span><span class="p">,</span>
+                <span class="n">use_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">layer_outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">hidden_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BaseModelOutputWithPast</span><span class="p">(</span>
+            <span class="n">last_hidden_state</span><span class="o">=</span><span class="n">hidden_states</span><span class="p">,</span>
+            <span class="n">past_key_values</span><span class="o">=</span><span class="n">past_key_values</span><span class="p">,</span>
+            <span class="n">hidden_states</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">attentions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>然后是对 LlamaAttention 模块的改写。按顺序实现如下操作：</p>
+<ol class="arabic simple">
+<li><p>kqv proj</p></li>
+<li><p>rotary embedding</p></li>
+<li><p>填充 kv cache</p></li>
+<li><p>MHA 计算</p></li>
+<li><p>o proj</p></li>
+</ol>
+<p>continuous batching 和 kv cache 的改动对该模块的影响比较大</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy/pytorch/models/llama.py</span>
+<span class="kn">from</span> <span class="nn">lmdeploy.pytorch.kernels</span> <span class="kn">import</span> <span class="n">apply_rotary_pos_emb</span><span class="p">,</span> <span class="n">fill_kv_cache</span><span class="p">,</span> <span class="n">paged_attention_fwd</span>
+
+<span class="k">class</span> <span class="nc">LlamaAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">hidden_states</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">position_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">past_key_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_attentions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
+               <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rewrite of LlamaAttention.forward.&quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">context</span>
+        <span class="n">history_lengths</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">history_lengths</span>
+        <span class="n">position_ids_1d</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">position_ids_1d</span>
+        <span class="n">block_offsets</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">block_offsets</span>
+
+        <span class="c1"># qkv proj</span>
+        <span class="n">query_states</span> <span class="o">=</span> <span class="n">q_proj</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>
+        <span class="n">key_states</span> <span class="o">=</span> <span class="n">k_proj</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>
+        <span class="n">value_states</span> <span class="o">=</span> <span class="n">v_proj</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>
+        <span class="n">query_states</span> <span class="o">=</span> <span class="n">query_states</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+        <span class="n">key_states</span> <span class="o">=</span> <span class="n">key_states</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_kv_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+        <span class="n">value_states</span> <span class="o">=</span> <span class="n">value_states</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_kv_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+
+        <span class="c1"># rotary embedding</span>
+        <span class="n">max_seq_len</span> <span class="o">=</span> <span class="n">position_ids</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">kv_seq_len</span> <span class="o">=</span> <span class="n">max_seq_len</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">history_lengths</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kv_seq_len</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotary_emb</span><span class="o">.</span><span class="n">max_seq_len_cached</span><span class="p">:</span>
+            <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotary_emb</span><span class="p">(</span><span class="n">value_states</span><span class="p">,</span>
+                                        <span class="n">seq_len</span><span class="o">=</span><span class="n">kv_seq_len</span> <span class="o">+</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="n">query_states</span><span class="p">,</span> <span class="n">key_states</span> <span class="o">=</span> <span class="n">apply_rotary_pos_emb</span><span class="p">(</span>
+            <span class="n">query_states</span><span class="p">,</span>
+            <span class="n">key_states</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rotary_emb</span><span class="o">.</span><span class="n">cos_cached</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rotary_emb</span><span class="o">.</span><span class="n">sin_cached</span><span class="p">,</span>
+            <span class="n">position_ids</span><span class="p">,</span>
+            <span class="n">position_ids_1d</span><span class="p">,</span>
+            <span class="n">q_embed</span><span class="o">=</span><span class="n">query_states</span><span class="p">,</span>
+            <span class="n">k_embed</span><span class="o">=</span><span class="n">key_states</span><span class="p">)</span>
+
+        <span class="c1"># fill kv cache</span>
+        <span class="n">kv_seq_length</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">kv_seq_length</span>
+        <span class="n">q_seq_length</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">q_seq_length</span>
+        <span class="n">q_start_loc</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">q_start_loc</span>
+        <span class="n">fill_kv_cache</span><span class="p">(</span><span class="n">key_states</span><span class="p">,</span>
+                      <span class="n">value_states</span><span class="p">,</span>
+                      <span class="n">past_key_value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="n">past_key_value</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                      <span class="n">q_start_loc</span><span class="p">,</span>
+                      <span class="n">q_seq_length</span><span class="p">,</span>
+                      <span class="n">block_offsets</span><span class="o">=</span><span class="n">block_offsets</span><span class="p">,</span>
+                      <span class="n">history_lengths</span><span class="o">=</span><span class="n">history_lengths</span><span class="p">,</span>
+                      <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+
+        <span class="c1"># attention</span>
+        <span class="n">attn_output</span> <span class="o">=</span> <span class="n">query_states</span>
+        <span class="n">block_size</span> <span class="o">=</span> <span class="n">past_key_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">paged_attention_fwd</span><span class="p">(</span>
+            <span class="n">query_states</span><span class="p">,</span>
+            <span class="n">past_key_value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">past_key_value</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">attn_output</span><span class="p">,</span>
+            <span class="n">block_offsets</span><span class="p">,</span>
+            <span class="n">q_start_loc</span><span class="o">=</span><span class="n">q_start_loc</span><span class="p">,</span>
+            <span class="n">q_seqlens</span><span class="o">=</span><span class="n">q_seq_length</span><span class="p">,</span>
+            <span class="n">kv_seqlens</span><span class="o">=</span><span class="n">kv_seq_length</span><span class="p">,</span>
+            <span class="n">max_seqlen</span><span class="o">=</span><span class="n">max_seq_len</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">hidden_size</span> <span class="o">=</span> <span class="n">num_heads</span> <span class="o">*</span> <span class="n">head_dim</span>
+        <span class="n">attn_output</span> <span class="o">=</span> <span class="n">attn_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">hidden_states</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hidden_size</span><span class="p">)</span>
+
+        <span class="c1"># o proj</span>
+        <span class="n">attn_output</span> <span class="o">=</span> <span class="n">o_proj</span><span class="p">(</span><span class="n">attn_output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">attn_output</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">past_key_value</span>
+</pre></div>
+</div>
+<p>上面的代码有几处值得注意的地方，首先是 context 对象。我们需要 history_lengths、block_offsets 等参数辅助运算，这些参数无法通过模型的 forward 函数传递进来。因此我们维护了一个 context 对象，把几乎所有可能用到的输入参数都保存在其中，方便在各个模块间共享。context 对象可以通过 <code class="docutils literal notranslate"><span class="pre">self.context.context</span></code> 来访问，结构可以参考 <a class="reference internal" href="#context">context-结构</a>。</p>
+<p>另一个值得注意的地方就是自定义 kernel，由于输入形式的改变，原来的 LlamaAttention 实现变得不再适用，为了保证推理的速度和正确性，我们在 lmdeploy.pytorch.kernels 中实现了许多自定义的 triton kernel，上面的模块中就用到了 <code class="docutils literal notranslate"><span class="pre">apply_rotary_pos_emb</span></code>，<code class="docutils literal notranslate"><span class="pre">fill_kv_cache</span></code> 和 <code class="docutils literal notranslate"><span class="pre">paged_attention_fwd</span></code> ，分别负责实现 rotary embedding，填充 kv cache 还有 attention 的计算。</p>
+<p>有了上述的两个模块后，还需要将他们注册到 <code class="docutils literal notranslate"><span class="pre">lmdeploy/pytorch/models/module_map.py</span></code> 中，进行原模块与 patch 模块的映射</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy/pytorch/models/module_map.py</span>
+<span class="n">MODEL_MAP</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;transformers.models.llama.modeling_llama.LlamaAttention&#39;</span><span class="p">:</span>
+    <span class="s1">&#39;lmdeploy.pytorch.models.llama.LlamaAttention&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;transformers.models.llama.modeling_llama.LlamaModel&#39;</span><span class="p">:</span>
+    <span class="s1">&#39;lmdeploy.pytorch.models.llama.LlamaModel&#39;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>完成注册后，Engine 在启动时就会将这两个模块 patch 成新的实现，完成后续的部署任务。</p>
+</div>
+<div class="section" id="tensor">
+<h2>Tensor 并发支持<a class="headerlink" href="#tensor" title="永久链接至标题">¶</a></h2>
+<p>为了支持 Tensor 并发，需要对模型的权重做切分。让我们试着为上面接入的 Llama 模型添加 TP 的支持。</p>
+<p>Llama 中涉及到 Tensor 并发的模块是 LlamaAttention 中的 qkvo proj 和 LlamaMLP 中的 gate,up 和 down proj。其中 o_proj 和 down_proj 需要按行切分，剩下的按列切分。我们可以在对应的模块中实现 <code class="docutils literal notranslate"><span class="pre">_distribution_partition_fn</span></code> 函数：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy/pytorch/models/llama.py</span>
+<span class="kn">from</span> <span class="nn">..dist_utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">colwise_parallelize_linear_fn</span><span class="p">,</span>
+                          <span class="n">rowwise_parallelize_linear_fn</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">LlamaAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_distribute_partition_fn</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mod_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mod</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                                 <span class="n">device_mesh</span><span class="p">:</span> <span class="n">DeviceMesh</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Distribution partition callback.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mod_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;q_proj&#39;</span><span class="p">,</span> <span class="s1">&#39;k_proj&#39;</span><span class="p">,</span> <span class="s1">&#39;v_proj&#39;</span><span class="p">]:</span>
+            <span class="n">colwise_parallelize_linear_fn</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span>
+                                          <span class="n">device_mesh</span><span class="o">=</span><span class="n">device_mesh</span><span class="p">,</span>
+                                          <span class="n">to_local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mod_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;o_proj&#39;</span><span class="p">]:</span>
+            <span class="n">rowwise_parallelize_linear_fn</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span>
+                                          <span class="n">device_mesh</span><span class="o">=</span><span class="n">device_mesh</span><span class="p">,</span>
+                                          <span class="n">to_local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">LlamaMLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_distribute_partition_fn</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mod_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mod</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                                 <span class="n">device_mesh</span><span class="p">:</span> <span class="n">DeviceMesh</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Distribution partition callback.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mod_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;gate_proj&#39;</span><span class="p">,</span> <span class="s1">&#39;up_proj&#39;</span><span class="p">]:</span>
+            <span class="n">colwise_parallelize_linear_fn</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span>
+                                          <span class="n">device_mesh</span><span class="o">=</span><span class="n">device_mesh</span><span class="p">,</span>
+                                          <span class="n">to_local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mod_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;down_proj&#39;</span><span class="p">]:</span>
+            <span class="n">rowwise_parallelize_linear_fn</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span>
+                                          <span class="n">device_mesh</span><span class="o">=</span><span class="n">device_mesh</span><span class="p">,</span>
+                                          <span class="n">to_local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">_distribute_partition_fn</span></code> 会在加载模型权重时被调用，对应的权重会被按照特定的形式分配到对应的设备中。</p>
+<p>按照目前的方案切分后的权重，需要对 o_proj 和 down_proj 的结果进行 all_reduce 操作才能得到正确的结果。可以选择将 all_reduce 放在模型的 forward 函数中，也可以选择另一种方案，添加 <code class="docutils literal notranslate"><span class="pre">_distribute_output_fn</span></code> 函数：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy/pytorch/models/llama.py</span>
+<span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="nn">dist</span>
+
+<span class="k">class</span> <span class="nc">LlamaAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_distribute_output_fn</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">device_mesh</span><span class="p">:</span> <span class="n">DeviceMesh</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Distribution output hook.&quot;&quot;&quot;</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">outputs</span>
+
+<span class="k">class</span> <span class="nc">LlamaMLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_distribute_output_fn</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">device_mesh</span><span class="p">:</span> <span class="n">DeviceMesh</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Distribution output hook.&quot;&quot;&quot;</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outputs</span>
+</pre></div>
+</div>
+<p>最后别忘了将 LlamaMLP 也注册进 module_map 中</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lmdeploy/pytorch/models/module_map.py</span>
+<span class="n">MODEL_MAP</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;transformers.models.llama.modeling_llama.LlamaMLP&#39;</span><span class="p">:</span>
+    <span class="s1">&#39;lmdeploy.pytorch.models.llama.LlamaMLP&#39;</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>这样就可以利用多卡的优势，让更大的模型部署成为可能</p>
+</div>
+<div class="section" id="id2">
+<h2>模块调试<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>当模型的输出不符合预期时，我们会希望调试某个特定模块以确定添加的重写是否正确。<code class="docutils literal notranslate"><span class="pre">lmdeploy.pytorch</span></code> 提供了一些工具以帮助进行精度对齐。还是以上面提到的 <code class="docutils literal notranslate"><span class="pre">LlamaAttention</span></code> 模块为例。</p>
+<p>首先，我们通过 transformers 的 API 得到想要调试的子模块的一个实例：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span>
+
+<span class="c1"># get module</span>
+<span class="n">model_path</span> <span class="o">=</span> <span class="s1">&#39;meta-llama/Llama-2-7b-chat-hf&#39;</span>
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float16</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="n">self_attn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">self_attn</span>
+</pre></div>
+</div>
+<p>然后，使用 <code class="docutils literal notranslate"><span class="pre">ModuleIOExtractor</span></code> 工具可以生成该模块的一组输入输出</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lmdeploy.pytorch.tools.make_inputs</span> <span class="kn">import</span> <span class="n">ModuleIOExtractor</span>
+
+<span class="c1"># extract module input/output</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="n">extractor</span> <span class="o">=</span> <span class="n">ModuleIOExtractor</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">self_attn</span><span class="p">)</span>
+<span class="n">attn_args</span><span class="p">,</span> <span class="n">attn_kwargs</span><span class="p">,</span> <span class="n">attn_output</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>重写模块的输入与原模块略有不同，主要体现在三方面：</p>
+<ol class="arabic simple">
+<li><p>模型需要一些特殊输入输出，他们以 <code class="docutils literal notranslate"><span class="pre">StepContext</span></code> 的形式传入，可以使用 <code class="docutils literal notranslate"><span class="pre">make_step_context</span></code> 生成。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_ids</span></code>，<code class="docutils literal notranslate"><span class="pre">hidden_states</span></code> 等数据都被 continuous 化，可以使用 <code class="docutils literal notranslate"><span class="pre">continuous_tensor</span></code> 进行处理。</p></li>
+<li><p>由于 paged caching 的需要， <code class="docutils literal notranslate"><span class="pre">past_key_value</span></code> 需要被 page 化处理。</p></li>
+</ol>
+<p>基于以上原因，我们要对提取的输入进行加工：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lmdeploy.pytorch.tools.make_inputs</span> <span class="kn">import</span> <span class="n">make_step_context</span>
+<span class="kn">from</span> <span class="nn">lmdeploy.pytorch.tools.layout_convert</span> <span class="kn">import</span> <span class="n">continuous_tensor</span>
+
+<span class="c1"># create patched input/output</span>
+<span class="n">context</span> <span class="o">=</span> <span class="n">make_step_context</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span>
+                            <span class="n">kv_cache_dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                            <span class="n">num_key_value_heads</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">seq_length</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">q_seq_length</span>
+<span class="n">attn_kwargs</span><span class="p">[</span><span class="s1">&#39;hidden_states&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">continuous_tensor</span><span class="p">(</span>
+    <span class="n">attn_kwargs</span><span class="p">[</span><span class="s1">&#39;hidden_states&#39;</span><span class="p">],</span>
+    <span class="n">seq_length</span><span class="p">)</span>
+<span class="n">attn_kwargs</span><span class="p">[</span><span class="s1">&#39;past_key_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">kv_caches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>然后就可以启动重写，并比较结果正确性了。（注意输出也要 continuous 化后进行比较）</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lmdeploy.pytorch.models</span> <span class="kn">import</span> <span class="n">patch</span>
+
+<span class="c1"># patch and test</span>
+<span class="n">patched_self_attn</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="n">self_attn</span><span class="p">,</span> <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;context&#39;</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
+    <span class="n">patched_output</span> <span class="o">=</span> <span class="n">patched_self_attn</span><span class="o">.</span><span class="n">patched_forward</span><span class="p">(</span><span class="o">*</span><span class="n">attn_args</span><span class="p">,</span>
+                                                       <span class="o">**</span><span class="n">attn_kwargs</span><span class="p">,</span>
+                                                       <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_close</span><span class="p">(</span><span class="n">patched_output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">continuous_tensor</span><span class="p">(</span><span class="n">attn_output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">seq_length</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>可以通过上述方法调试重写模块，直到精度满足预期。</p>
+</div>
+<div class="section" id="id3">
+<h2>附录<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="context">
+<h3>context 结构<a class="headerlink" href="#context" title="永久链接至标题">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">StepContext</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;context of Model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="n">ModelInputs</span>
+    <span class="n">block_offsets</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">position_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">position_ids_1d</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">q_start_loc</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">history_lengths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">seq_length</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">max_seq_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">kv_seq_length</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+    <span class="n">kv_caches</span><span class="p">:</span> <span class="n">List</span>
+    <span class="n">is_decoding</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">json_config</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">local_adapter_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">global_adapter_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">adapter_offsets</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="faq">
+<h3>FAQ<a class="headerlink" href="#faq" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p><strong>如何访问 patch 前的模块？</strong></p></li>
+</ul>
+<p>有时我们只希望在函数前后加一个 hook 代码，不希望大段的拷贝函数，可以通过 <code class="docutils literal notranslate"><span class="pre">self.origin_mod</span></code> 访问 patch 前的模块。</p>
+<ul class="simple">
+<li><p><strong>非 transformers 官方的模型该如何注册？</strong></p></li>
+</ul>
+<p>一些模型的实现代码可能是以 remote code 的形式添加的，这样的模块无法通过完整的 qualname 来定位。lmdeploy.pytorch 支持使用缩写的模块名进行注册：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MODULE_MAP</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;modeling_internlm.InternLMAttention&#39;</span><span class="p">:</span>
+    <span class="s1">&#39;lmdeploy.pytorch.models.internlm.PatchedInternLMAttention&#39;</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>[!NOTE]</p>
+<p>缩写的优先级会更低，有条件的话还是鼓励使用完整的 qualname 进行注册。</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>模块出现同名但不同实现怎么处理？</strong></p></li>
+</ul>
+<p>目前推荐的做法是同名就映射到同一个实现中，然后在实现内部根据模块的固有参数来判断模型该使用的类型，以 baichuan2 7b/13b 为例：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaichuanModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_hidden_layers</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">forward_7b</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">forward_default</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>如果希望在推理前对模块进行初始化?</strong></p></li>
+</ul>
+<p>可以实现模块的 <code class="docutils literal notranslate"><span class="pre">_update_model_fn</span></code> 函数，它会在模块的权重都加载完，完成 TP 权重切分后被调用</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LlamaAttention</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_update_model_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># ADD YOUR CODE HERE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="long_context.html" class="btn btn-neutral float-right" title="长文本外推" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="../quantization/w8a8.html" class="btn btn-neutral" title="W8A8 LLM 模型部署" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">lmdeploy.pytorch 新模型支持</a><ul>
+<li><a class="reference internal" href="#id1">模型支持</a></li>
+<li><a class="reference internal" href="#tensor">Tensor 并发支持</a></li>
+<li><a class="reference internal" href="#id2">模块调试</a></li>
+<li><a class="reference internal" href="#id3">附录</a><ul>
+<li><a class="reference internal" href="#context">context 结构</a></li>
+<li><a class="reference internal" href="#faq">FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

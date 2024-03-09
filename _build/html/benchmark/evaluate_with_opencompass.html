@@ -1,0 +1,587 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>如何使用OpenCompass测评LLMs &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="支持的模型" href="../supported_models/supported_models.html" />
+  <link rel="prev" title="Triton Inference Server 性能测试" href="profile_triton_server.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>如何使用OpenCompass测评LLMs</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//benchmark/evaluate_with_opencompass.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="opencompassllms">
+<h1>如何使用OpenCompass测评LLMs<a class="headerlink" href="#opencompassllms" title="永久链接至标题">¶</a></h1>
+<p>LMDeploy设计了TurboMind推理引擎用来加速大模型推理，其推理精度也支持使用OpenCompass测评。</p>
+<div class="section" id="id1">
+<h2>准备<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>我们将配置用于测评的环境</p>
+<div class="section" id="lmdeploy">
+<h3>安装 lmdeploy<a class="headerlink" href="#lmdeploy" title="永久链接至标题">¶</a></h3>
+<p>使用 pip (python 3.8+) 安装 LMDeploy，或者<a class="reference internal" href="../build.html"><span class="std std-doc">源码安装</span></a></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>lmdeploy
+</pre></div>
+</div>
+</div>
+<div class="section" id="opencompass">
+<h3>安装 OpenCompass<a class="headerlink" href="#opencompass" title="永久链接至标题">¶</a></h3>
+<p>执行如下脚本，从源码安装OpenCompass。更多安装方式请参考<a class="reference external" href="https://opencompass.readthedocs.io/en/latest/get_started/installation.html">installation</a>。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/open-compass/opencompass.git
+<span class="nb">cd</span><span class="w"> </span>opencompass
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p>如果想快速了解OpenCompass基本操作，可翻阅<a class="reference external" href="https://opencompass.readthedocs.io/en/latest/get_started/quick_start.html#">Quick Start</a></p>
+</div>
+<div class="section" id="id2">
+<h3>下载数据集<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>OpenCompass提供了多个版本的数据集，在这里我们下载如下版本数据集</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 切换到OpenCompass根目录</span>
+<span class="nb">cd</span><span class="w"> </span>opencompass
+wget<span class="w"> </span>https://github.com/open-compass/opencompass/releases/download/0.1.8.rc1/OpenCompassData-core-20231110.zip
+unzip<span class="w"> </span>OpenCompassData-core-20231110.zip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>准备测评配置文件<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>OpenCompass采用OpenMMLab风格的配置文件来管理模型和数据集，用户只需添加简单的配置就可以快速开始测评。OpenCompass已支持通过python API来
+测评TurboMind推理引擎加速的大模型。</p>
+<div class="section" id="id4">
+<h3>数据集配置<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>在OpenCompass根目录，准备测评配置文件<code class="docutils literal notranslate"><span class="pre">$OPENCOMPASS_DIR/configs/eval_lmdeploy.py</span></code>。</p>
+<p>在配置文件开始，导入如下OpenCompass支持的数据集<code class="docutils literal notranslate"><span class="pre">datasets</span></code>和格式化输出测评结果的<code class="docutils literal notranslate"><span class="pre">summarizer</span></code>。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mmengine.config</span> <span class="kn">import</span> <span class="n">read_base</span>
+
+
+<span class="k">with</span> <span class="n">read_base</span><span class="p">():</span>
+    <span class="c1"># choose a list of datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.mmlu.mmlu_gen_a484b3</span> <span class="kn">import</span> <span class="n">mmlu_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.ceval.ceval_gen_5f30c7</span> <span class="kn">import</span> <span class="n">ceval_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.SuperGLUE_WiC.SuperGLUE_WiC_gen_d06864</span> <span class="kn">import</span> <span class="n">WiC_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.SuperGLUE_WSC.SuperGLUE_WSC_gen_7902a7</span> <span class="kn">import</span> <span class="n">WSC_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.triviaqa.triviaqa_gen_2121ce</span> <span class="kn">import</span> <span class="n">triviaqa_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.gsm8k.gsm8k_gen_1d7fe4</span> <span class="kn">import</span> <span class="n">gsm8k_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.race.race_gen_69ee4f</span> <span class="kn">import</span> <span class="n">race_datasets</span>
+    <span class="kn">from</span> <span class="nn">.datasets.crowspairs.crowspairs_gen_381af0</span> <span class="kn">import</span> <span class="n">crowspairs_datasets</span>
+    <span class="c1"># and output the results in a chosen format</span>
+    <span class="kn">from</span> <span class="nn">.summarizers.medium</span> <span class="kn">import</span> <span class="n">summarizer</span>
+
+<span class="n">datasets</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_datasets&#39;</span><span class="p">)),</span> <span class="p">[])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>模型配置<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>这个部分展示如何在测评配置文件中添加模型配置。让我们来看几个示例：</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">internlm-20b</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">internlm-chat-20b</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">opencompass.models.turbomind</span> <span class="kn">import</span> <span class="n">TurboMindModel</span>
+
+<span class="n">internlm_20b</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">TurboMindModel</span><span class="p">,</span>
+        <span class="n">abbr</span><span class="o">=</span><span class="s1">&#39;internlm-20b-turbomind&#39;</span><span class="p">,</span>
+        <span class="n">path</span><span class="o">=</span><span class="s2">&quot;internlm/internlm-20b&quot;</span><span class="p">,</span>  <span class="c1"># this path should be same as in huggingface</span>
+        <span class="n">engine_config</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">session_len</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
+                           <span class="n">max_batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                           <span class="n">rope_scaling_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+        <span class="n">gen_config</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                        <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                        <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+        <span class="n">max_out_len</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">max_seq_len</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">concurrency</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">run_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">num_gpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">internlm_20b</span><span class="p">]</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><p>对于Chat类大模型，用户需要在配置文件中指定<code class="docutils literal notranslate"><span class="pre">meta_template</span></code>，该设置需要与训练设置对齐，可翻阅<a class="reference external" href="https://opencompass.readthedocs.io/en/latest/prompt/meta_template.html">meta_template</a> 查看其介绍。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">opencompass.models.turbomind</span> <span class="kn">import</span> <span class="n">TurboMindModel</span>
+
+<span class="n">internlm_meta_template</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">round</span><span class="o">=</span><span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s1">&#39;HUMAN&#39;</span><span class="p">,</span> <span class="n">begin</span><span class="o">=</span><span class="s1">&#39;&lt;|User|&gt;:&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s1">&#39;BOT&#39;</span><span class="p">,</span> <span class="n">begin</span><span class="o">=</span><span class="s1">&#39;&lt;|Bot|&gt;:&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&lt;eoa&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">generate</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="p">],</span>
+                              <span class="n">eos_token_id</span><span class="o">=</span><span class="mi">103028</span><span class="p">)</span>
+
+<span class="n">internlm_chat_20b</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">TurboMindModel</span><span class="p">,</span>
+    <span class="n">abbr</span><span class="o">=</span><span class="s1">&#39;internlm-chat-20b-turbomind&#39;</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="s1">&#39;internlm/internlm-chat-20b&#39;</span><span class="p">,</span>
+    <span class="n">engine_config</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">session_len</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
+                       <span class="n">max_batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                       <span class="n">rope_scaling_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+    <span class="n">gen_config</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">top_p</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                    <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+    <span class="n">max_out_len</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">max_seq_len</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">concurrency</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">meta_template</span><span class="o">=</span><span class="n">internlm_meta_template</span><span class="p">,</span>
+    <span class="n">run_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">num_gpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">end_str</span><span class="o">=</span><span class="s1">&#39;&lt;eoa&gt;&#39;</span>
+<span class="p">)</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">internlm_chat_20b</span><span class="p">]</span>
+
+</pre></div>
+</div>
+</div></div>
+<p><strong>注</strong></p>
+<ul class="simple">
+<li><p>如果想在测评配置文件中<code class="docutils literal notranslate"><span class="pre">engine_config</span></code>和<code class="docutils literal notranslate"><span class="pre">gen_config</span></code>字段传递更多参数，请参考<a class="reference external" href="https://lmdeploy.readthedocs.io/zh-cn/latest/inference/pipeline.html#turbomindengineconfig">TurbomindEngineConfig</a> 和 <a class="reference external" href="https://lmdeploy.readthedocs.io/zh-cn/latest/inference/pipeline.html#generationconfig">EngineGenerationConfig</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>执行测评任务<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>完成测评配置文件编写后，在OpenCompass根目录执行<code class="docutils literal notranslate"><span class="pre">run.py</span></code>脚本，指定工作目录即可开启测评任务。
+测评脚本更多参数可参考<a class="reference external" href="https://opencompass.readthedocs.io/zh-cn/latest/user_guides/experimentation.html#id1">执行测评</a></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the root directory of opencompass</span>
+python3<span class="w"> </span>run.py<span class="w"> </span>configs/eval_lmdeploy.py<span class="w"> </span>--work-dir<span class="w"> </span>./workdir
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="../supported_models/supported_models.html" class="btn btn-neutral float-right" title="支持的模型" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="profile_triton_server.html" class="btn btn-neutral" title="Triton Inference Server 性能测试" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">如何使用OpenCompass测评LLMs</a><ul>
+<li><a class="reference internal" href="#id1">准备</a><ul>
+<li><a class="reference internal" href="#lmdeploy">安装 lmdeploy</a></li>
+<li><a class="reference internal" href="#opencompass">安装 OpenCompass</a></li>
+<li><a class="reference internal" href="#id2">下载数据集</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">准备测评配置文件</a><ul>
+<li><a class="reference internal" href="#id4">数据集配置</a></li>
+<li><a class="reference internal" href="#id5">模型配置</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">执行测评任务</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/tabs.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

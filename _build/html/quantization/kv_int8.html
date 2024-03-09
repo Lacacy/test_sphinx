@@ -1,0 +1,608 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>KV Cache 量化和测试结果 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="W8A8 LLM 模型部署" href="w8a8.html" />
+  <link rel="prev" title="INT4 模型量化和部署" href="w4a16.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind.html">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference/pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>KV Cache 量化和测试结果</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//quantization/kv_int8.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="kv-cache">
+<h1>KV Cache 量化和测试结果<a class="headerlink" href="#kv-cache" title="永久链接至标题">¶</a></h1>
+<p>对于最大长度是 2048 的 LLaMa-7B fp16 模型，服务端每创建 1 个并发，都需要大约 1030MB 显存保存 kv_cache，即便是 A100 80G，能服务的用户也非常有限。</p>
+<p>为了降低运行时显存，我们实现了 kv cache PTQ 量化，使用的公式如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">zp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>min+max<span class="o">)</span><span class="w"> </span>/<span class="w"> </span><span class="m">2</span>
+<span class="nv">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>max-min<span class="o">)</span><span class="w"> </span>/<span class="w"> </span><span class="m">255</span>
+quant:<span class="w"> </span><span class="nv">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>round<span class="o">(</span><span class="w"> </span><span class="o">(</span>f-zp<span class="o">)</span><span class="w"> </span>/<span class="w"> </span>scale<span class="o">)</span>
+dequant:<span class="w"> </span><span class="nv">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>q<span class="w"> </span>*<span class="w"> </span>scale<span class="w"> </span>+<span class="w"> </span>zp
+</pre></div>
+</div>
+<div class="section" id="kv-cache-int8">
+<h2>如何开启 KV Cache INT8<a class="headerlink" href="#kv-cache-int8" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id1">
+<h3><strong>第一步</strong><a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
+<p>通过以下命令，获取量化参数，并保存至原HF模型目录</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># get minmax</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HF_MODEL</span><span class="o">=</span>internlm/internlm-chat-7b
+
+lmdeploy<span class="w"> </span>lite<span class="w"> </span>calibrate<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$HF_MODEL</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--calib-dataset<span class="w"> </span><span class="s1">&#39;ptb&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--calib-samples<span class="w"> </span><span class="m">128</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--calib-seqlen<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--work-dir<span class="w"> </span><span class="nv">$HF_MODEL</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3><strong>第二步</strong><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>测试聊天效果。注意需要添加参数<code class="docutils literal notranslate"><span class="pre">--quant-policy</span> <span class="pre">4</span></code>以开启KV Cache int8模式。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lmdeploy<span class="w"> </span>chat<span class="w"> </span>turbomind<span class="w"> </span><span class="nv">$HF_MODEL</span><span class="w"> </span>--model-format<span class="w"> </span>hf<span class="w"> </span>--quant-policy<span class="w"> </span><span class="m">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>显存测试<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>测试对象为 <a class="reference external" href="https://huggingface.co/internlm/internlm-chat-7b">internlm-chat-7b</a> 模型。
+测试方法：</p>
+<ol class="arabic simple">
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">deploy.py</span></code> 转换模型，修改 <code class="docutils literal notranslate"><span class="pre">workspace</span></code> 配置中的最大并发数；调整 <code class="docutils literal notranslate"><span class="pre">llama_config.ini</span></code> 中的请求数</p></li>
+<li><p>编译执行 <code class="docutils literal notranslate"><span class="pre">bin/llama_triton_example</span></code>，获取 fp16 版本在不同 batch_size 的显存情况</p></li>
+<li><p>开启量化，重新执行 <code class="docutils literal notranslate"><span class="pre">bin/llama_triton_example</span></code>，获取 int8 版本在不同 batch_size 显存情况</p></li>
+</ol>
+<p>以下是两个版本的显存对比：</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: center;">batch_size</th>
+<th style="text-align: center;">fp16 memory(MiB)</th>
+<th style="text-align: center;">int8 memory(MiB)</th>
+<th style="text-align: center;">diff(MiB)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">22337</td>
+<td style="text-align: center;">18241</td>
+<td style="text-align: center;">-4096</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">30593</td>
+<td style="text-align: center;">22369</td>
+<td style="text-align: center;">-8224</td>
+</tr>
+<tr>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">47073</td>
+<td style="text-align: center;">30625</td>
+<td style="text-align: center;">-16448</td>
+</tr>
+<tr>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">63553</td>
+<td style="text-align: center;">38881</td>
+<td style="text-align: center;">-24672</td>
+</tr>
+</tbody>
+</table>
+<p>相对于直接量化 Weight（如 <a class="reference external" href="https://github.com/qwopqwop200/GPTQ-for-LLaMa/">GPTQ-for-LLaMa</a>），我们做了两种方案在 7B 模型中的内存增长对比预估，部分数据来自 <a class="reference external" href="https://github.com/ggerganov/llama.cpp">llama.cpp</a>。</p>
+<p><img alt="" src="../../resources/batch_memory.png" /></p>
+<p>可以看到，fp16 版本每个并发需要 1030MB 显存，因此量化 kv_cache 能显著降低运行时的显存增长速度。</p>
+</div>
+<div class="section" id="id4">
+<h2>精度测试<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>测试对象为 <a class="reference external" href="https://huggingface.co/internlm/internlm-chat-7b">internlm-chat-7b</a> 指令模型。</p>
+<p>以下是 <code class="docutils literal notranslate"><span class="pre">kCacheKVInt8</span></code> 方法仅从 c4 数据集，随机选择 128 条数据 PTQ 量化。量化前后均使用 <a class="reference external" href="https://github.com/InternLM/opencompass">opencompass</a> 测试精度。</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: center;">task</th>
+<th style="text-align: center;">dataset</th>
+<th style="text-align: center;">metric</th>
+<th style="text-align: center;">int8</th>
+<th style="text-align: center;">fp16</th>
+<th style="text-align: center;">diff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Language</td>
+<td style="text-align: center;">winogrande</td>
+<td style="text-align: center;">accuracy</td>
+<td style="text-align: center;">60.77</td>
+<td style="text-align: center;">61.48</td>
+<td style="text-align: center;">-0.71</td>
+</tr>
+<tr>
+<td style="text-align: center;">Knowledge</td>
+<td style="text-align: center;">nq</td>
+<td style="text-align: center;">score</td>
+<td style="text-align: center;">2.69</td>
+<td style="text-align: center;">2.60</td>
+<td style="text-align: center;">+0.09</td>
+</tr>
+<tr>
+<td style="text-align: center;">Reasoning</td>
+<td style="text-align: center;">gsm8k</td>
+<td style="text-align: center;">accuracy</td>
+<td style="text-align: center;">33.28</td>
+<td style="text-align: center;">34.72</td>
+<td style="text-align: center;">-1.44</td>
+</tr>
+<tr>
+<td style="text-align: center;">Reasoning</td>
+<td style="text-align: center;">bbh</td>
+<td style="text-align: center;">naive_average</td>
+<td style="text-align: center;">20.12</td>
+<td style="text-align: center;">20.51</td>
+<td style="text-align: center;">-0.39</td>
+</tr>
+<tr>
+<td style="text-align: center;">Understanding</td>
+<td style="text-align: center;">openbookqa_fact</td>
+<td style="text-align: center;">accuracy</td>
+<td style="text-align: center;">82.40</td>
+<td style="text-align: center;">82.20</td>
+<td style="text-align: center;">+0.20</td>
+</tr>
+<tr>
+<td style="text-align: center;">Understanding</td>
+<td style="text-align: center;">eprstmt-dev</td>
+<td style="text-align: center;">accuracy</td>
+<td style="text-align: center;">90.62</td>
+<td style="text-align: center;">88.75</td>
+<td style="text-align: center;">+1.87</td>
+</tr>
+<tr>
+<td style="text-align: center;">Safety</td>
+<td style="text-align: center;">crows_pairs</td>
+<td style="text-align: center;">accuracy</td>
+<td style="text-align: center;">32.56</td>
+<td style="text-align: center;">31.43</td>
+<td style="text-align: center;">+1.13</td>
+</tr>
+</tbody>
+</table>
+<p>需要注意的是，<code class="docutils literal notranslate"><span class="pre">kCacheKVInt8</span></code> 和 <code class="docutils literal notranslate"><span class="pre">WeightInt4</span></code> 两种方案可以同时开启。请参阅 <a class="reference internal" href="w4a16.html"><span class="std std-doc">w4a16</span></a> 开启 <code class="docutils literal notranslate"><span class="pre">WeightInt4</span></code> ，然后测试聊天效果：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>lmdeploy<span class="w"> </span>chat<span class="w"> </span>turbomind<span class="w"> </span>./internlm-chat-7b-4bit<span class="w"> </span>--model-format<span class="w"> </span>awq<span class="w"> </span>--quant-policy<span class="w"> </span><span class="m">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="w8a8.html" class="btn btn-neutral float-right" title="W8A8 LLM 模型部署" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="w4a16.html" class="btn btn-neutral" title="INT4 模型量化和部署" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">KV Cache 量化和测试结果</a><ul>
+<li><a class="reference internal" href="#kv-cache-int8">如何开启 KV Cache INT8</a><ul>
+<li><a class="reference internal" href="#id1"><strong>第一步</strong></a></li>
+<li><a class="reference internal" href="#id2"><strong>第二步</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">显存测试</a></li>
+<li><a class="reference internal" href="#id4">精度测试</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>

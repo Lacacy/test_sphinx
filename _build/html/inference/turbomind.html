@@ -1,0 +1,520 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-CN" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TurboMind 框架 &mdash; lmdeploy 0.1.0 文档</title>
+  
+
+  <link rel="shortcut icon" href="../_static/images/logo192.png" />
+  
+  
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/readthedocs.css" type="text/css" />
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="搜索" href="../search.html" />
+  <link rel="next" title="TurboMind 配置" href="turbomind_config.html" />
+  <link rel="prev" title="LLM 离线推理 pipeline" href="pipeline.html" />
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var collapsedSections = [];
+  </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+    MathJax = {
+        chtml: {
+            scale: 1,
+            minScale: 1,
+        },
+        svg: {
+            scale: 1,
+            minScale: 1,
+        }
+    }
+</script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+    integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/"
+        aria-label="OpenMMLab"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+          <li >
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a
+                class="resource-option with-down-arrow">
+                InternLM
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://intern-ai.org.cn/home" target="_blank">
+                  <span class="dropdown-title">主页 </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://github.com/InternLM/" target="_blank">
+                  <span class="dropdown-title">GitHub </span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item"
+                  href="https://twitter.com/intern_lm" target="_blank">
+                  <span class="dropdown-title">推特 </span>
+                  <p></p>
+                </a>
+              </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+  
+
+  <div class="table-of-contents-link-wrapper">
+    <span>Table of Contents</span>
+    <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+  </div>
+
+  <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+    <div class="pytorch-side-scroll">
+      <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <div class="pytorch-left-menu-search">
+          
+
+          
+          
+          
+          <div class="version">
+            0.1.0
+          </div>
+          
+          
+
+          
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        
+        
+        
+        
+        
+        <p class="caption"><span class="caption-text">快速上手</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">快速上手</a></li>
+</ul>
+<p class="caption"><span class="caption-text">编译和安装</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build.html">编译和安装</a></li>
+</ul>
+<p class="caption"><span class="caption-text">测试基准</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_generation.html">静态推理性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_throughput.html">请求吞吐量性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_api_server.html">api_server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/profile_triton_server.html">Triton Inference Server 性能测试</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/evaluate_with_opencompass.html">如何使用OpenCompass测评LLMs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">模型列表</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../supported_models/supported_models.html">支持的模型</a></li>
+</ul>
+<p class="caption"><span class="caption-text">推理</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">LLM 离线推理 pipeline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TurboMind 框架</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbomind_config.html">TurboMind 配置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytorch.html">lmdeploy.pytorch 架构</a></li>
+</ul>
+<p class="caption"><span class="caption-text">服务</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../serving/restful_api.html">部署类 openai 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/gradio.html">部署 gradio 服务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/proxy_server.html">请求分发服务器</a></li>
+</ul>
+<p class="caption"><span class="caption-text">量化</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w4a16.html">INT4 模型量化和部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/kv_int8.html">KV Cache 量化和测试结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization/w8a8.html">W8A8 LLM 模型部署</a></li>
+</ul>
+<p class="caption"><span class="caption-text">进阶指南</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advance/pytorch_new_model.html">lmdeploy.pytorch 新模型支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/long_context.html">长文本外推</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advance/debug_turbomind.html">如何调试 Turbomind</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../serving/qos.html">LMDeploy-QoS 介绍与用法</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API 文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/pipeline.html">推理 pipeline</a></li>
+</ul>
+
+        
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="pytorch-container">
+    <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+      <div class="pytorch-breadcrumbs-wrapper">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+            Docs
+        </a> &gt;
+      </li>
+
+        
+      <li>TurboMind 框架</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            
+            
+            
+              <a href="/en//inference/turbomind.html" class="fa fa-language"> Read in English</a>
+            
+        
+      </li>
+      
+    
+  </ul>
+
+  
+</div>
+      </div>
+
+      <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+        Shortcuts
+      </div>
+    </div>
+
+    <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+      <div class="pytorch-content-left">
+        
+          <div class="rst-content">
+            
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+                
+                
+  <div class="section" id="turbomind">
+<h1>TurboMind 框架<a class="headerlink" href="#turbomind" title="永久链接至标题">¶</a></h1>
+<p>TurboMind 是一款关于 LLM 推理的高效推理引擎，基于英伟达的 <a class="reference external" href="https://github.com/NVIDIA/FasterTransformer">FasterTransformer</a> 研发而成。它的主要功能包括：LLaMa 结构模型的支持，persistent batch 推理模式和可扩展的 KV 缓存管理器。</p>
+<div class="section" id="id1">
+<h2>TurboMind 结构<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="o">+--------------------+</span>
+  <span class="o">|</span>        <span class="n">API</span>         <span class="o">|</span>
+  <span class="o">+--------------------+</span>
+          <span class="o">|</span>    <span class="o">^</span>
+    <span class="n">请</span> <span class="n">求</span>  <span class="o">|</span>    <span class="o">|</span> <span class="n">流式回调</span>
+          <span class="n">v</span>    <span class="o">|</span>
+  <span class="o">+--------------------+</span>    <span class="n">获取</span>   <span class="o">+-------------------+</span>
+  <span class="o">|</span>  <span class="n">Persistent</span> <span class="n">Batch</span>  <span class="o">|</span> <span class="o">&lt;-------&gt;</span> <span class="o">|</span>  <span class="n">KV</span> <span class="n">Cache</span> <span class="n">管理器</span> <span class="o">|</span>
+  <span class="o">+--------------------+</span>    <span class="n">更新</span>   <span class="o">+-------------------+</span>
+             <span class="o">^</span>
+             <span class="o">|</span>
+             <span class="n">v</span>
+<span class="o">+------------------------+</span>
+<span class="o">|</span>      <span class="n">LLaMa推理实现</span>      <span class="o">|</span>
+<span class="o">+------------------------+</span>
+<span class="o">|</span> <span class="n">FT</span> <span class="n">kernels</span> <span class="o">&amp;</span> <span class="n">utilities</span> <span class="o">|</span>
+<span class="o">+------------------------+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="persistent-batch">
+<h2>Persistent Batch<a class="headerlink" href="#persistent-batch" title="永久链接至标题">¶</a></h2>
+<p>你也许在别的项目中看到这项机制的另一个名字： <code class="docutils literal notranslate"><span class="pre">continuous</span> <span class="pre">batching</span></code> 。在开发这个功能时，我们将对话式 LLM 的推理建模为一个持续运行的 batch ，其生命周期跨越整个服务过程，故将其命名为 <code class="docutils literal notranslate"><span class="pre">persistent</span> <span class="pre">batch</span></code> 。简单来说是这样实现的：</p>
+<ul class="simple">
+<li><p>该功能会预先准备好 N 个 batch slots。</p></li>
+<li><p>当有空闲 slots 时， 请求就会加入到 batch 中。当请求对应的 tokens 都生成完毕后，对应的 batch slot 会立刻被释放，接收新的请求。</p></li>
+<li><p><strong>当一个 sequence 命中缓存时（见下文），它的历史 token 不必在每轮中都进行解码，所以它的 token 生成过程会即刻开始</strong>。</p></li>
+<li><p>整个 batch 会自动扩缩容来避免不必要的计算。</p></li>
+</ul>
+</div>
+<div class="section" id="kv">
+<h2>KV 缓存管理器<a class="headerlink" href="#kv" title="永久链接至标题">¶</a></h2>
+<p>TurboMind 的 <a class="reference external" href="https://github.com/InternLM/lmdeploy/blob/main/src/turbomind/models/llama/SequenceManager.h">KV 缓存管理器</a> 是一个内存池类型的对象，并且在其中加入了 LRU 的实现，这样整个管理器可以被看作是一个 <strong>KV 缓存的缓存</strong>。大致工作方式如下：</p>
+<ul class="simple">
+<li><p>KV 缓存由管理器分配。管理器会根据预先配置好的 slot 数量开辟空间。每个 slot 对应于一个 sequence 所需的 KV 缓存。分配的内存块大小可通过配置来实现预分配或者按需分配（或介于两者之间）。</p></li>
+<li><p>当有新的请求，但是缓存池中没有空闲 slot时，根据 LRU 机制，管理器会踢除最近使用最少的 sequence，把它占据的 slot 分给新的请求。不仅仅如此，</p></li>
+<li><p>sequence获取到了slot，类似缓存命中。它在缓存中的历史KV会被直接返回，而不用再进行context decoding 。</p></li>
+<li><p>被踢除的 sequences 不会被完全的删除，而是会被转换成最简洁的形式，例如 token IDs 。当之后获取到相同的 sequence id 时 (即 <em>cache-miss</em> 状态)，这些 token IDs 将被 FMHA 的 context decoder 解码并被转回 KV 缓存。</p></li>
+<li><p>踢除和转换均由 TurboMind 内部自动管理所以对用户来说是透明的。<strong>从用户的使用角度来看，使用了 TurboMind 的系统就像是可以访问无限的设备内存</strong>。</p></li>
+</ul>
+</div>
+<div class="section" id="turbomind-llama">
+<h2>TurboMind 的 LLaMa 实现<a class="headerlink" href="#turbomind-llama" title="永久链接至标题">¶</a></h2>
+<p>我们对 LLaMa 系列模型的实现是从 FasterTransformer 中的 Gpt-NeX 模型修改而来的。除了对 LLaMa 系列进行基本重构和修改外，我们还做了一些改进以实现会话模型的高性能推理，其中最重要的是：</p>
+<ul class="simple">
+<li><p>支持多轮对话中的快速文本解码。我们用基于 <a class="reference external" href="https://github.com/NVIDIA/cutlass">cutlass</a> 的 FMHA 实现替代了 context decoder 中的注意力机制实现，从而支持了 Q/K 长度不匹配的情况。</p></li>
+<li><p>我们在 context FMHA 和 generation FMHA 中都加入了间接缓冲指针，支持 batch 中不连续的 KV 缓存。</p></li>
+<li><p>为了支持 persistent batch 的并发推理，我们设计了新的同步机制来协调在张量并型模式下的工作线程。</p></li>
+<li><p>我们实现了 INT8 KV cache，降低了内存开销，提高了批处理大小和系统吞吐量。这在实际场景中非常有用，因为相比权重和其他激活，KV cache 会消耗更多的内存和内存带宽。</p></li>
+<li><p>我们解决了单个进程内多个模型实例在 TP 模式下运行时 NCCL 卡住的问题。NCCL APIs 现由 host 端的同步 barriers 保护。</p></li>
+</ul>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h2>
+<p>TurboMind 的 Python API 支持流式结果返回和张量并行模式。</p>
+<p>同时 TurboMind 也继承了 FasterTransformer 能够注册为 <a class="reference external" href="https://github.com/triton-inference-server/server">Triton Inference Server</a> 推理后端的能力。但是为了支持 persistent batch 中的并发请求，我们不再像 FasterTransformer 那样使用 sequence batching 或者 dynamic batching 。相反，TurboMind 负责记录和管理请求序列的状态。</p>
+</div>
+<div class="section" id="turbomind-fastertransformer">
+<h2>TurboMind 和 FasterTransformer 的区别<a class="headerlink" href="#turbomind-fastertransformer" title="永久链接至标题">¶</a></h2>
+<p>除了上文中提到的功能外，TurboMind 相较于 FasterTransformer 还有不少差别。譬如不少 FasterTransformer 的功能在 TurboMind 中都被去掉了，这其中包括前缀提示词、 beam search 、上下文 embedding、稀疏化 GEMM 操作和对应 GPT 或 T5 等结构的模型的支持等等。</p>
+</div>
+<div class="section" id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="永久链接至标题">¶</a></h2>
+<div class="section" id="huggingface">
+<h3>对 Huggingface 模型的支持<a class="headerlink" href="#huggingface" title="永久链接至标题">¶</a></h3>
+<p>因为历史因素， TurboMind 的权重设计是基于 <a class="reference external" href="https://github.com/facebookresearch/llama">LLaMa 的官方实现</a> 完成的，两者只相差一个转置操作。但是 Huggingface 版本的实现却是<a class="reference external" href="https://github.com/huggingface/transformers/blob/45025d92f815675e483f32812caa28cce3a960e7/src/transformers/models/llama/convert_llama_weights_to_hf.py#L123C76-L123C76">另一种形式</a>，两种权重实现方式在 <code class="docutils literal notranslate"><span class="pre">W_q</span></code> 和 <code class="docutils literal notranslate"><span class="pre">W_k</span></code> 上的区别我们在 <a class="reference external" href="https://github.com/InternLM/lmdeploy/blob/ff4648a1d09e5aec74cf70efef35bfaeeac552e0/lmdeploy/serve/turbomind/deploy.py#L398">deploy.py</a> 进行了适配处理，用户可前往查看。</p>
+</div>
+</div>
+</div>
+
+
+              </article>
+              
+            </div>
+            <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    <a href="turbomind_config.html" class="btn btn-neutral float-right" title="TurboMind 配置" accesskey="n"
+      rel="next">Next <img src="../_static/images/chevron-right-blue.svg"
+        class="next-page"></a>
+    
+    
+    <a href="pipeline.html" class="btn btn-neutral" title="LLM 离线推理 pipeline" accesskey="p"
+      rel="prev"><img src="../_static/images/chevron-right-blue.svg" class="previous-page"> Previous</a>
+    
+  </div>
+  
+
+  <hr>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2021-2024, OpenMMLab.
+
+    </p>
+  </div>
+  
+  <div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+      href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the
+      Docs</a>.
+  </div>
+   
+
+</footer>
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">TurboMind 框架</a><ul>
+<li><a class="reference internal" href="#id1">TurboMind 结构</a></li>
+<li><a class="reference internal" href="#persistent-batch">Persistent Batch</a></li>
+<li><a class="reference internal" href="#kv">KV 缓存管理器</a></li>
+<li><a class="reference internal" href="#turbomind-llama">TurboMind 的 LLaMa 实现</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+<li><a class="reference internal" href="#turbomind-fastertransformer">TurboMind 和 FasterTransformer 的区别</a></li>
+<li><a class="reference internal" href="#faq">FAQ</a><ul>
+<li><a class="reference internal" href="#huggingface">对 Huggingface 模型的支持</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+    </section>
+  </div>
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../"
+    src="../_static/documentation_options.js"></script>
+  <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+  <script src="../_static/jquery.js"></script>
+  <script src="../_static/underscore.js"></script>
+  <script src="../_static/doctools.js"></script>
+  <script src="../_static/clipboard.min.js"></script>
+  <script src="../_static/copybutton.js"></script>
+  <script src="../_static/translations.js"></script>
+  
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+  </div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://lmdeploy.readthedocs.io/zh-cn/latest/" aria-label="OpenMMLab"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://github.com/InternLM/lmdeploy" target="_blank">GitHub</a>
+          </li>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function (e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+
+</html>
